@@ -1024,6 +1024,76 @@ func_descr_get(PyObject *func, PyObject *obj, PyObject *type)
     return PyMethod_New(func, obj);
 }
 
+static PyObject *
+compose(PyObject *self, PyObject *g){
+
+    PyObject* lambda = PyUnicode_FromString("lambda arg: f(g(arg))");
+    if (lambda == NULL) {
+        return NULL;
+    }
+
+    // Evaluate lambda to create the composed function
+    PyObject* global_dict = PyDict_New();
+    if (global_dict == NULL) {
+        return NULL;
+    }
+    if (PyDict_SetItemString(global_dict, "f", self) < 0) {
+        return NULL;
+    }
+    if (PyDict_SetItemString(global_dict, "g", g) < 0) {
+        return NULL;
+    }
+    PyObject* composed_func = PyRun_String(
+            PyUnicode_AsUTF8(lambda),
+            Py_eval_input,
+            global_dict,
+            global_dict
+    );
+    Py_DECREF(lambda);
+    Py_DECREF(global_dict);
+
+    return composed_func;
+}
+
+static PyNumberMethods function_as_number = {
+        0,                          /* nb_add */
+        0,                          /* nb_subtract */
+        0,                          /* nb_multiply */
+        0,                          /* nb_remainde r*/
+        0,                          /* nb_divmod */
+        0,                          /* nb_power */
+        0,                          /* nb_negative */
+        0,                          /* tp_positive */
+        0,                          /* tp_absolute */
+        0,                          /* tp_bool */
+        0,                          /* nb_invert */
+        0,                          /* nb_lshift */
+        0,                          /* nb_rshift */
+        0,                          /* nb_and */
+        0,                          /* nb_xor */
+        0,                          /* nb_or */
+        0,                          /* nb_int */
+        0,                          /* nb_reserved */
+        0,                          /* nb_float */
+        0,                          /* nb_inplace_add */
+        0,                          /* nb_inplace_subtract */
+        0,                          /* nb_inplace_multiply */
+        0,                          /* nb_inplace_remainder */
+        0,                          /* nb_inplace_power */
+        0,                          /* nb_inplace_lshift */
+        0,                          /* nb_inplace_rshift */
+        0,                          /* nb_inplace_and */
+        0,                          /* nb_inplace_xor */
+        0,                          /* nb_inplace_or */
+        0,                          /* nb_floor_divide */
+        0,                          /* nb_true_divide */
+        0,                          /* nb_inplace_floor_divide */
+        0,                          /* nb_inplace_true_divide */
+        0,                          /* nb_index */
+        compose,                    /* nb_matrix_multiply */
+};
+
+
 PyTypeObject PyFunction_Type = {
     PyVarObject_HEAD_INIT(&PyType_Type, 0)
     "function",
@@ -1035,7 +1105,7 @@ PyTypeObject PyFunction_Type = {
     0,                                          /* tp_setattr */
     0,                                          /* tp_as_async */
     (reprfunc)func_repr,                        /* tp_repr */
-    0,                                          /* tp_as_number */
+    &function_as_number,                        /* tp_as_number */
     0,                                          /* tp_as_sequence */
     0,                                          /* tp_as_mapping */
     0,                                          /* tp_hash */
