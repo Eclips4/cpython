@@ -1763,7 +1763,7 @@ def main():
                              'column offsets')
     parser.add_argument('-i', '--indent', type=int, default=3,
                         help='indentation of nodes (number of spaces)')
-    parser.add_argument('--feature_version', type=_parse_tuple, default=None,
+    parser.add_argument('--feature-version', type=_parse_tuple, default=None,
                         help='use grammar from version (major, minor)')
     parser.add_argument('-o', '--optimize', type=int, default=-1,
                         help='optimization level')
@@ -1782,7 +1782,7 @@ def main():
         source,
         name,
         args.mode,
-        type_comments=not args.no_type_comments,
+        type_comments=args.no_type_comments,
         feature_version=args.feature_version,
         optimize=args.optimize,
     )
@@ -1790,7 +1790,7 @@ def main():
         tree,
         include_attributes=args.include_attributes,
         indent=args.indent,
-        show_empty=not args.no_show_empty,
+        show_empty=args.no_show_empty,
     ))
 
 if __name__ == '__main__':
