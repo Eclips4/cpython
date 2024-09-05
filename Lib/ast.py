@@ -1740,6 +1740,13 @@ def unparse(ast_obj):
     return unparser.visit(ast_obj)
 
 
+def _parse_tuple(value):
+    try:
+        items = value.strip('()').split(',')
+        return tuple(map(int, items))
+    except ValueError:
+        raise argparse.ArgumentTypeError("feature_version should be in form (3, X)") from None
+
 def main():
     import argparse
 
@@ -1756,6 +1763,12 @@ def main():
                              'column offsets')
     parser.add_argument('-i', '--indent', type=int, default=3,
                         help='indentation of nodes (number of spaces)')
+    parser.add_argument('--feature_version', type=_parse_tuple, default=None,
+                        help='use grammar from version (major, minor)')
+    parser.add_argument('-o', '--optimize', type=int, default=-1,
+                        help='optimization level')
+    parser.add_argument('--no-show-empty', default=True, action='store_false',
+                        help="don't show empty lists and fields that are None")
     args = parser.parse_args()
 
     if args.infile == '-':
@@ -1765,8 +1778,20 @@ def main():
         name = args.infile
         with open(args.infile, 'rb') as infile:
             source = infile.read()
-    tree = parse(source, name, args.mode, type_comments=args.no_type_comments)
-    print(dump(tree, include_attributes=args.include_attributes, indent=args.indent))
+    tree = parse(
+        source,
+        name,
+        args.mode,
+        type_comments=not args.no_type_comments,
+        feature_version=args.feature_version,
+        optimize=args.optimize,
+    )
+    print(dump(
+        tree,
+        include_attributes=args.include_attributes,
+        indent=args.indent,
+        show_empty=not args.no_show_empty,
+    ))
 
 if __name__ == '__main__':
     main()
