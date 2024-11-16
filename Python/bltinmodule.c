@@ -841,11 +841,6 @@ builtin_compile_impl(PyObject *module, PyObject *source, PyObject *filename,
                     _PyArena_Free(arena);
                     goto error;
                 }
-                if (_PyCompile_AstOptimize(mod, filename, &cf, optimize,
-                                           arena) < 0) {
-                    _PyArena_Free(arena);
-                    goto error;
-                }
                 result = PyAST_mod2obj(mod);
             }
             else {
