@@ -1326,6 +1326,50 @@ add_const(PyObject *newconst, PyObject *consts, PyObject *const_cache)
    new constant (c1, c2, ... cn) can be appended.
    Called with codestr pointing to the first LOAD_CONST.
 */
+
+static int
+fold_set_on_constants(PyObject *const_cache,
+                      cfg_instr *inst,
+                      int n, PyObject *consts)
+{
+    assert(PyDict_CheckExact(const_cache));
+    assert(PyList_CheckExact(consts));
+    assert(inst[n].i_opcode == BUILD_SET);
+    assert(inst[n].i_oparg == n);
+
+    for (int i = 0; i < n; i++) {
+        if (!loads_const(inst[i].i_opcode)) {
+            return SUCCESS;
+        }
+    }
+
+    PyObject *newconst = PyTuple_New(n);
+    if (newconst == NULL) {
+        return ERROR;
+    }
+
+    for (int i = 0; i < n; i++) {
+        int op = inst[i].i_opcode;
+        int arg = inst[i].i_oparg;
+        PyObject *constant = get_const_value(op, arg, consts);
+        if (constant == NULL) {
+            return ERROR;
+        }
+
+        PyTuple_SET_ITEM(newconst, i, constant);
+    }
+    Py_SETREF(newconst, PyFrozenSet_New(newconst));
+    int index = add_const(newconst, consts, const_cache);
+    if (index < 0) {
+        return ERROR;
+    }
+    for (int i = 0; i < n; i++) {
+        INSTR_SET_OP0(&inst[i], NOP);
+    }
+    INSTR_SET_OP1(&inst[n], LOAD_CONST, index);
+    return SUCCESS;
+}
+
 static int
 fold_tuple_on_constants(PyObject *const_cache,
                         cfg_instr *inst,
@@ -1731,6 +1775,13 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                 }
                 if (i >= oparg) {
                     if (fold_tuple_on_constants(const_cache, inst-oparg, oparg, consts)) {
+                        goto error;
+                    }
+                }
+                break;
+            case BUILD_SET:
+                if (i >= oparg) {
+                    if (fold_set_on_constants(const_cache, inst-oparg, oparg, consts)) {
                         goto error;
                     }
                 }
