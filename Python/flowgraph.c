@@ -1779,13 +1779,6 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                     }
                 }
                 break;
-            case BUILD_SET:
-                if (i >= oparg) {
-                    if (fold_set_on_constants(const_cache, inst-oparg, oparg, consts)) {
-                        goto error;
-                    }
-                }
-                break;
             case POP_JUMP_IF_NOT_NONE:
             case POP_JUMP_IF_NONE:
                 switch (target->i_opcode) {
