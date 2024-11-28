@@ -2,6 +2,8 @@
 #include <stdbool.h>
 
 #include "Python.h"
+#include "object.h"
+#include "opcode_ids.h"
 #include "pycore_flowgraph.h"
 #include "pycore_compile.h"
 #include "pycore_pymem.h"         // _PyMem_IsPtrFreed()
@@ -1371,14 +1373,15 @@ fold_set_on_constants(PyObject *const_cache,
 }
 
 static int
-fold_tuple_on_constants(PyObject *const_cache,
-                        cfg_instr *inst,
-                        int n, PyObject *consts)
+convert_sequence_to_tuple(PyObject *const_cache,
+                          cfg_instr *inst,
+                          int n, PyObject *consts,
+                          int sequence_type)
 {
     /* Pre-conditions */
     assert(PyDict_CheckExact(const_cache));
     assert(PyList_CheckExact(consts));
-    assert(inst[n].i_opcode == BUILD_TUPLE);
+    assert(inst[n].i_opcode == sequence_type);
     assert(inst[n].i_oparg == n);
 
     for (int i = 0; i < n; i++) {
@@ -1774,7 +1777,21 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                     }
                 }
                 if (i >= oparg) {
-                    if (fold_tuple_on_constants(const_cache, inst-oparg, oparg, consts)) {
+                    if (convert_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_TUPLE)) {
+                        goto error;
+                    }
+                }
+                break;
+            case BUILD_LIST:
+                if (nextop == CONTAINS_OP) {
+                    if (convert_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_LIST)) {
+                        goto error;
+                    }
+                }
+                break;
+            case BUILD_SET:
+                if (nextop == CONTAINS_OP) {
+                    if (fold_set_on_constants(const_cache, inst-oparg, oparg, consts)) {
                         goto error;
                     }
                 }
