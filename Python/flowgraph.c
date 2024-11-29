@@ -1378,12 +1378,10 @@ TODO: Implement negative integer subscriptions fold.
 */
 static int
 fold_constant_subscr(PyObject *const_cache,
-                     basicblock *bb,
-                     int i,
-                     PyObject * consts,
-                     cfg_instr *inst)
+                     cfg_instr *inst, int n,
+                     PyObject *consts)
 {
-    cfg_instr *const_inst = &bb->b_instr[i - 2];
+    cfg_instr *const_inst = &inst[n - 2];
     int const_opcode = const_inst->i_opcode;
     int const_oparg = const_inst->i_oparg;
     PyObject *py_constant = get_const_value(
@@ -1393,42 +1391,40 @@ fold_constant_subscr(PyObject *const_cache,
         return ERROR;
     }
 
-    cfg_instr *sub_int_inst = &bb->b_instr[i - 1];
+    cfg_instr *sub_int_inst = &inst[n - 1];
     PyObject *py_index;
-
     if (sub_int_inst->i_opcode == LOAD_CONST) {
         int int_opcode = sub_int_inst->i_opcode;
         int int_oparg = sub_int_inst->i_oparg;
         py_index = get_const_value(int_opcode, int_oparg, consts);
+    } else if (sub_int_inst->i_opcode == LOAD_SMALL_INT) {
+        long index = sub_int_inst->i_oparg;
+        py_index = PyLong_FromLong(index);
     }
     if (py_index == NULL) {
         return ERROR;
     }
 
-    if (sub_int_inst->i_opcode == LOAD_SMALL_INT) {
-        long index = sub_int_inst->i_oparg;
-        py_index = PyLong_FromLong(index);
-    }
-
     /*
-    TODO: Need to check for the length. Now, subscription with an index
-    greater than the length of a sequence leads to a segfault.
+    TODO: Handle negative indicies properly.
 
-        if (PyObject_Length(py_constant) > PyLong_AsSsize_t(py_index)) {
-            return ERROR;
+        if (PyLong_AsLong(py_index) < 0) {
+            py_index = PyObject_Length(py_constant) + py_index;
         }
     */
 
+    if (PyObject_Length(py_constant) < PyLong_AsSsize_t(py_index)) {
+        return ERROR;
+    }
     PyObject *py_subscripted = PyObject_GetItem(py_constant, py_index);
     int inst_index = add_const(py_subscripted, consts, const_cache);
     if (inst_index < 0) {
         return ERROR;
     }
 
-    INSTR_SET_OP0(inst, NOP);
-    INSTR_SET_OP0(sub_int_inst, NOP);
-    INSTR_SET_OP1(const_inst, LOAD_CONST, inst_index);
-
+    INSTR_SET_OP0(&inst[n - 2], NOP);
+    INSTR_SET_OP0(&inst[n - 1], NOP);
+    INSTR_SET_OP1(&inst[n], LOAD_CONST, inst_index);
     return SUCCESS;
 }
 
@@ -1989,11 +1985,14 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                     )
                 ) {
                     /*
-                    Commenting the following line out due to the segfaults.
+                    Commenting the following lines out due to the segfaults.
 
-                        fold_constant_subscr(const_cache, bb, i, consts, inst);
+                        if (fold_constant_subscr(const_cache, bb->b_instr, i, consts)) {
+                            goto error;
+                        }
                     */
-               }
+                    fold_constant_subscr(const_cache, bb->b_instr, i, consts);
+                }
                 break;
         }
     }
