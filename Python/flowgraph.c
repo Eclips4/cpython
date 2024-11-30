@@ -1839,14 +1839,14 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                 }
                 break;
             case BUILD_LIST:
-                if (nextop == CONTAINS_OP) {
+                if (nextop == CONTAINS_OP || nextop == GET_ITER) {
                     if (convert_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_LIST)) {
                         goto error;
                     }
                 }
                 break;
             case BUILD_SET:
-                if (nextop == CONTAINS_OP) {
+                if (nextop == CONTAINS_OP || nextop == GET_ITER) {
                     if (fold_set_on_constants(const_cache, inst-oparg, oparg, consts)) {
                         goto error;
                     }
