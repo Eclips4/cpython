@@ -745,9 +745,6 @@ astfold_expr(expr_ty node_, PyArena *ctx_, _PyASTOptimizeState *state)
 {
     ENTER_RECURSIVE(state);
     switch (node_->kind) {
-    case BoolOp_kind:
-        CALL_SEQ(astfold_expr, expr, node_->v.BoolOp.values);
-        break;
     case BinOp_kind:
         CALL(astfold_expr, expr_ty, node_->v.BinOp.left);
         CALL(astfold_expr, expr_ty, node_->v.BinOp.right);
@@ -761,83 +758,8 @@ astfold_expr(expr_ty node_, PyArena *ctx_, _PyASTOptimizeState *state)
         CALL(astfold_arguments, arguments_ty, node_->v.Lambda.args);
         CALL(astfold_expr, expr_ty, node_->v.Lambda.body);
         break;
-    case IfExp_kind:
-        CALL(astfold_expr, expr_ty, node_->v.IfExp.test);
-        CALL(astfold_expr, expr_ty, node_->v.IfExp.body);
-        CALL(astfold_expr, expr_ty, node_->v.IfExp.orelse);
-        break;
-    case Dict_kind:
-        CALL_SEQ(astfold_expr, expr, node_->v.Dict.keys);
-        CALL_SEQ(astfold_expr, expr, node_->v.Dict.values);
-        break;
-    case Set_kind:
-        CALL_SEQ(astfold_expr, expr, node_->v.Set.elts);
-        break;
-    case ListComp_kind:
-        CALL(astfold_expr, expr_ty, node_->v.ListComp.elt);
-        CALL_SEQ(astfold_comprehension, comprehension, node_->v.ListComp.generators);
-        break;
-    case SetComp_kind:
-        CALL(astfold_expr, expr_ty, node_->v.SetComp.elt);
-        CALL_SEQ(astfold_comprehension, comprehension, node_->v.SetComp.generators);
-        break;
-    case DictComp_kind:
-        CALL(astfold_expr, expr_ty, node_->v.DictComp.key);
-        CALL(astfold_expr, expr_ty, node_->v.DictComp.value);
-        CALL_SEQ(astfold_comprehension, comprehension, node_->v.DictComp.generators);
-        break;
-    case GeneratorExp_kind:
-        CALL(astfold_expr, expr_ty, node_->v.GeneratorExp.elt);
-        CALL_SEQ(astfold_comprehension, comprehension, node_->v.GeneratorExp.generators);
-        break;
-    case Await_kind:
-        CALL(astfold_expr, expr_ty, node_->v.Await.value);
-        break;
-    case Yield_kind:
-        CALL_OPT(astfold_expr, expr_ty, node_->v.Yield.value);
-        break;
-    case YieldFrom_kind:
-        CALL(astfold_expr, expr_ty, node_->v.YieldFrom.value);
-        break;
-    case Compare_kind:
-        CALL(astfold_expr, expr_ty, node_->v.Compare.left);
-        CALL_SEQ(astfold_expr, expr, node_->v.Compare.comparators);
-        CALL(fold_compare, expr_ty, node_);
-        break;
-    case Call_kind:
-        CALL(astfold_expr, expr_ty, node_->v.Call.func);
-        CALL_SEQ(astfold_expr, expr, node_->v.Call.args);
-        CALL_SEQ(astfold_keyword, keyword, node_->v.Call.keywords);
-        break;
-    case FormattedValue_kind:
-        CALL(astfold_expr, expr_ty, node_->v.FormattedValue.value);
-        CALL_OPT(astfold_expr, expr_ty, node_->v.FormattedValue.format_spec);
-        break;
-    case JoinedStr_kind:
-        CALL_SEQ(astfold_expr, expr, node_->v.JoinedStr.values);
-        break;
-    case Attribute_kind:
-        CALL(astfold_expr, expr_ty, node_->v.Attribute.value);
-        break;
-    case Subscript_kind:
-        CALL(astfold_expr, expr_ty, node_->v.Subscript.value);
-        CALL(astfold_expr, expr_ty, node_->v.Subscript.slice);
-        CALL(fold_subscr, expr_ty, node_);
-        break;
-    case Starred_kind:
-        CALL(astfold_expr, expr_ty, node_->v.Starred.value);
-        break;
-    case Slice_kind:
-        CALL_OPT(astfold_expr, expr_ty, node_->v.Slice.lower);
-        CALL_OPT(astfold_expr, expr_ty, node_->v.Slice.upper);
-        CALL_OPT(astfold_expr, expr_ty, node_->v.Slice.step);
-        break;
-    case List_kind:
-        CALL_SEQ(astfold_expr, expr, node_->v.List.elts);
-        break;
     case Tuple_kind:
         CALL_SEQ(astfold_expr, expr, node_->v.Tuple.elts);
-        CALL(fold_tuple, expr_ty, node_);
         break;
     case Name_kind:
         if (node_->v.Name.ctx == Load &&
@@ -846,14 +768,8 @@ astfold_expr(expr_ty node_, PyArena *ctx_, _PyASTOptimizeState *state)
             return make_const(node_, PyBool_FromLong(!state->optimize), ctx_);
         }
         break;
-    case NamedExpr_kind:
-        CALL(astfold_expr, expr_ty, node_->v.NamedExpr.value);
+    default:
         break;
-    case Constant_kind:
-        // Already a constant, nothing further to do
-        break;
-    // No default case, so the compiler will emit a warning if new expression
-    // kinds are added without being handled here
     }
     LEAVE_RECURSIVE(state);;
     return 1;
