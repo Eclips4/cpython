@@ -1441,7 +1441,18 @@ fold_constant_subscr(PyObject *const_cache,
 }
 
 static int
-convert_sequence_to_tuple(PyObject *const_cache,
+is_sequence_constant(cfg_instr *inst, int n)
+{
+    for (int i = 0; i < n; i++) {
+        if (!loads_const(inst[i].i_opcode)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int
+convert_constant_sequence_to_tuple(PyObject *const_cache,
                           cfg_instr *inst,
                           int n, PyObject *consts,
                           int sequence_type)
@@ -1452,10 +1463,8 @@ convert_sequence_to_tuple(PyObject *const_cache,
     assert(inst[n].i_opcode == sequence_type);
     assert(inst[n].i_oparg == n);
 
-    for (int i = 0; i < n; i++) {
-        if (!loads_const(inst[i].i_opcode)) {
-            return SUCCESS;
-        }
+    if (!is_sequence_constant(inst, n)) {
+        return SUCCESS;
     }
 
     /* Buildup new tuple of constants */
@@ -1845,15 +1854,22 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                     }
                 }
                 if (i >= oparg) {
-                    if (convert_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_TUPLE)) {
+                    if (convert_constant_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_TUPLE)) {
                         goto error;
                     }
                 }
                 break;
             case BUILD_LIST:
                 if (nextop == CONTAINS_OP || nextop == GET_ITER) {
-                    if (convert_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_LIST)) {
-                        goto error;
+                    if (is_sequence_constant(inst-oparg, oparg)) {
+                        // If list consists solely of constants, then convert it to LOAD_CONST((const_n, const_n+1, ...))
+                        if (convert_constant_sequence_to_tuple(const_cache, inst-oparg, oparg, consts, BUILD_LIST)) {
+                            goto error;
+                        }
+                    }
+                    else {
+                        // Otherwise, replace a BUILD_LIST with a BUILD_TUPLE
+                        INSTR_SET_OP1(inst, BUILD_TUPLE, oparg);
                     }
                 }
                 break;
