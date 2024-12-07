@@ -2,12 +2,15 @@
 #include <stdbool.h>
 
 #include "Python.h"
+#include "abstract.h"
+#include "longobject.h"
 #include "object.h"
 #include "opcode_ids.h"
 #include "pycore_flowgraph.h"
 #include "pycore_compile.h"
+#include "pycore_global_objects.h"
 #include "pycore_pymem.h"         // _PyMem_IsPtrFreed()
-
+#include "pycore_long.h"          // _PyLong_SMALL_INTS
 #include "pycore_opcode_utils.h"
 #include "pycore_opcode_metadata.h" // OPCODE_HAS_ARG, etc
 
@@ -1384,10 +1387,6 @@ fold_set_on_constants(PyObject *const_cache,
     return SUCCESS;
 }
 
-/*
-At the moment, only positive integer subscriptions are folded.
-TODO: Implement negative integer subscriptions fold.
-*/
 static int
 fold_constant_subscr(PyObject *const_cache,
                      cfg_instr *inst, int n,
@@ -1396,39 +1395,28 @@ fold_constant_subscr(PyObject *const_cache,
     cfg_instr *const_inst = &inst[n - 2];
     int const_opcode = const_inst->i_opcode;
     int const_oparg = const_inst->i_oparg;
-    PyObject *py_constant = get_const_value(
-        const_opcode, const_oparg, consts
-    );
+    PyObject *py_constant = get_const_value(const_opcode, const_oparg, consts);
     if (py_constant == NULL) {
         return ERROR;
     }
 
     cfg_instr *sub_int_inst = &inst[n - 1];
     PyObject *py_index;
-    if (sub_int_inst->i_opcode == LOAD_CONST) {
-        int int_opcode = sub_int_inst->i_opcode;
-        int int_oparg = sub_int_inst->i_oparg;
-        py_index = get_const_value(int_opcode, int_oparg, consts);
-    } else if (sub_int_inst->i_opcode == LOAD_SMALL_INT) {
-        long index = sub_int_inst->i_oparg;
-        py_index = PyLong_FromLong(index);
+    int sub_opcode = sub_int_inst->i_opcode;
+    if (sub_opcode == LOAD_CONST) {
+        py_index = get_const_value(sub_opcode, sub_int_inst->i_oparg, consts);
     }
-    if (py_index == NULL) {
-        return ERROR;
+    else if (sub_opcode == LOAD_SMALL_INT) {
+        py_index = (PyObject *)&_PyLong_SMALL_INTS[_PY_NSMALLNEGINTS + sub_int_inst->i_oparg];
     }
-
-    /*
-    TODO: Handle negative indicies properly.
-
-        if (PyLong_AsLong(py_index) < 0) {
-            py_index = PyObject_Length(py_constant) + py_index;
-        }
-    */
-
-    if (PyObject_Length(py_constant) < PyLong_AsSsize_t(py_index)) {
-        return ERROR;
+    else {
+        return SUCCESS;
     }
     PyObject *py_subscripted = PyObject_GetItem(py_constant, py_index);
+    if (py_subscripted == NULL) {
+        PyErr_Clear();
+        return SUCCESS;
+    }
     int inst_index = add_const(py_subscripted, consts, const_cache);
     if (inst_index < 0) {
         return ERROR;
@@ -1436,6 +1424,21 @@ fold_constant_subscr(PyObject *const_cache,
 
     INSTR_SET_OP0(&inst[n - 2], NOP);
     INSTR_SET_OP0(&inst[n - 1], NOP);
+    // This is a construction of "end" value, and this is why current approach is incorrect.
+    // We need to determine if "end" value (aka subscripted value) is small int.
+    // I mean especailly the subscripted value, eg subscripted value of (100)[0] is 100
+    // Is a small int.
+    // Pseudo code:
+    // if (isinstance(py_subscripted, int)) and (0 <= py_subscripted <= 255):
+    //     INSTR_SET_OP1(&inst[n], LOAD_SMALL_INT, PY_SUBSCRIPTED_AS_C_INT)
+    if (PyLong_CheckExact(py_subscripted)) {
+        int overflow;
+        long val = PyLong_AsLongAndOverflow(py_subscripted, &overflow);
+        if (!overflow && val >= 0 && val < 256 && val < _PY_NSMALLPOSINTS) {
+            INSTR_SET_OP1(&inst[n], LOAD_SMALL_INT, val);
+            return SUCCESS;
+        }
+    }
     INSTR_SET_OP1(&inst[n], LOAD_CONST, inst_index);
     return SUCCESS;
 }
@@ -2012,14 +2015,9 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                         || bb->b_instr[i - 1].i_opcode == LOAD_CONST
                     )
                 ) {
-                    /*
-                    Commenting the following lines out due to the segfaults.
-
-                        if (fold_constant_subscr(const_cache, bb->b_instr, i, consts)) {
-                            goto error;
-                        }
-                    */
-                    fold_constant_subscr(const_cache, bb->b_instr, i, consts);
+                    if (fold_constant_subscr(const_cache, bb->b_instr, i, consts)) {
+                        goto error;
+                    }
                 }
                 break;
         }

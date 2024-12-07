@@ -761,6 +761,10 @@ astfold_expr(expr_ty node_, PyArena *ctx_, _PyASTOptimizeState *state)
     case Tuple_kind:
         CALL_SEQ(astfold_expr, expr, node_->v.Tuple.elts);
         break;
+    case Subscript_kind:
+        CALL(astfold_expr, expr_ty, node_->v.Subscript.value);
+        CALL(astfold_expr, expr_ty, node_->v.Subscript.slice);
+        break;
     case Name_kind:
         if (node_->v.Name.ctx == Load &&
                 _PyUnicode_EqualToASCIIString(node_->v.Name.id, "__debug__")) {
