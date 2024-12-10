@@ -13,6 +13,7 @@
 #include "pycore_long.h"          // _PyLong_SMALL_INTS
 #include "pycore_opcode_utils.h"
 #include "pycore_opcode_metadata.h" // OPCODE_HAS_ARG, etc
+#include "pyerrors.h"
 
 
 #undef SUCCESS
@@ -1400,20 +1401,20 @@ fold_constant_subscr(PyObject *const_cache,
         return ERROR;
     }
 
-    cfg_instr *sub_int_inst = &inst[n - 1];
-    PyObject *py_index;
-    int sub_opcode = sub_int_inst->i_opcode;
-    if (sub_opcode == LOAD_CONST) {
-        py_index = get_const_value(sub_opcode, sub_int_inst->i_oparg, consts);
-    }
-    else if (sub_opcode == LOAD_SMALL_INT) {
-        py_index = (PyObject *)&_PyLong_SMALL_INTS[_PY_NSMALLNEGINTS + sub_int_inst->i_oparg];
-    }
-    else {
+    cfg_instr *sub_inst = &inst[n - 1];
+    if (!loads_const(sub_inst->i_opcode)) {
         return SUCCESS;
     }
+    PyObject *py_index = get_const_value(sub_inst->i_opcode, sub_inst->i_oparg, consts);
     PyObject *py_subscripted = PyObject_GetItem(py_constant, py_index);
     if (py_subscripted == NULL) {
+        // This approach is taken from ast_opt::make_const
+        // Simply: we don't do any exception handling (except of KeyboardInterrupt)
+        // And just don't do further optimization if exception happens here.
+        // Perhaps there's a way to do that better.
+        if (PyErr_ExceptionMatches(PyExc_KeyboardInterrupt)) {
+            return ERROR;
+        }
         PyErr_Clear();
         return SUCCESS;
     }
@@ -1424,13 +1425,7 @@ fold_constant_subscr(PyObject *const_cache,
 
     INSTR_SET_OP0(&inst[n - 2], NOP);
     INSTR_SET_OP0(&inst[n - 1], NOP);
-    // This is a construction of "end" value, and this is why current approach is incorrect.
-    // We need to determine if "end" value (aka subscripted value) is small int.
-    // I mean especailly the subscripted value, eg subscripted value of (100)[0] is 100
-    // Is a small int.
-    // Pseudo code:
-    // if (isinstance(py_subscripted, int)) and (0 <= py_subscripted <= 255):
-    //     INSTR_SET_OP1(&inst[n], LOAD_SMALL_INT, PY_SUBSCRIPTED_AS_C_INT)
+    // I guess we need a macro to do that kind of things.
     if (PyLong_CheckExact(py_subscripted)) {
         int overflow;
         long val = PyLong_AsLongAndOverflow(py_subscripted, &overflow);
