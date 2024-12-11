@@ -129,6 +129,15 @@ is_jump(cfg_instr *i)
         _instr__ptr_->i_oparg = 0; \
     } while (0);
 
+#define INSTR_SET_OP0_RESET_LINENO(I, OP) \
+    do { \
+        assert(!OPCODE_HAS_ARG(OP)); \
+        cfg_instr *_instr__ptr_ = (I); \
+        _instr__ptr_->i_opcode = (OP); \
+        _instr__ptr_->i_oparg = 0; \
+        _instr__ptr_->i_loc.lineno = -1; \
+    } while (0);
+
 /***** Blocks *****/
 
 /* Returns the offset of the next instruction in the current block's
@@ -1423,8 +1432,8 @@ fold_constant_subscr(PyObject *const_cache,
         return ERROR;
     }
 
-    INSTR_SET_OP0(&inst[n - 2], NOP);
-    INSTR_SET_OP0(&inst[n - 1], NOP);
+    INSTR_SET_OP0_RESET_LINENO(&inst[n - 2], NOP);
+    INSTR_SET_OP0_RESET_LINENO(&inst[n - 1], NOP);
     // I guess we need a macro to do that kind of things.
     if (PyLong_CheckExact(py_subscripted)) {
         int overflow;
@@ -1484,7 +1493,7 @@ convert_constant_sequence_to_tuple(PyObject *const_cache,
         return ERROR;
     }
     for (int i = 0; i < n; i++) {
-        INSTR_SET_OP0(&inst[i], NOP);
+        INSTR_SET_OP0_RESET_LINENO(&inst[i], NOP);
     }
     INSTR_SET_OP1(&inst[n], LOAD_CONST, index);
     return SUCCESS;
