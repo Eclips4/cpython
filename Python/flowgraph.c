@@ -10,7 +10,6 @@
 #include "pycore_compile.h"
 #include "pycore_global_objects.h"
 #include "pycore_pymem.h"         // _PyMem_IsPtrFreed()
-#include "pycore_long.h"          // _PyLong_SMALL_INTS
 #include "pycore_opcode_utils.h"
 #include "pycore_opcode_metadata.h" // OPCODE_HAS_ARG, etc
 #include "pyerrors.h"
