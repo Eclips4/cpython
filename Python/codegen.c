@@ -1675,9 +1675,6 @@ codegen_typealias(compiler *c, stmt_ty s)
 static bool
 check_is_arg(expr_ty e)
 {
-    if (e->kind == Tuple_kind) {
-        return false;
-    }
     if (e->kind != Constant_kind) {
         return true;
     }
