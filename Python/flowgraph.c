@@ -1380,6 +1380,37 @@ fold_tuple_on_constants(PyObject *const_cache,
     return SUCCESS;
 }
 
+// We threat only Ellipsis, True, False and None as real consts.
+static inline int
+is_real_const(PyObject *obj) {
+    return (obj == Py_None
+         || obj == Py_False
+         || obj == Py_True
+         || obj == Py_Ellipsis);
+}
+
+static int
+warn_is_comparison(cfg_instr *inst,
+                   int oparg, PyObject *consts,
+                   int n)
+{
+    cfg_instr *left = &inst[n - 2];
+    if (loads_const(left->i_opcode)) {
+        PyObject *left_const = get_const_value(left->i_opcode, left->i_oparg, consts);
+        if (left_const == NULL) {
+            return ERROR;  
+        }
+        if (!is_real_const(left_const)) {
+            const char *msg = (oparg == 0)
+                    ? "\"is\" with '%.200s' literal. Did you mean \"==\"?"
+                    : "\"is not\" with '%.200s' literal. Did you mean \"!=\"?";
+            
+        }
+    }
+    return SUCCESS;
+}
+
+
 #define VISITED (-1)
 
 // Replace an arbitrary run of SWAPs and NOPs with an optimal one that has the
@@ -1847,6 +1878,9 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
                 break;
             case CONTAINS_OP:
             case IS_OP:
+                if (loads_const(bb->b_instr[i - 1].i_opcode) || loads_const(bb->b_instr[i - 2].i_opcode)) {
+                    warn_is_comparison(bb->b_instr, oparg, consts, i);
+                }
                 if (nextop == TO_BOOL) {
                     INSTR_SET_OP0(inst, NOP);
                     INSTR_SET_OP1(&bb->b_instr[i + 1], opcode, oparg);
