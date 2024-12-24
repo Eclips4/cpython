@@ -5,6 +5,7 @@
 #include "pycore_flowgraph.h"
 #include "pycore_compile.h"
 #include "pycore_pymem.h"         // _PyMem_IsPtrFreed()
+#include "pycore_pyerrors.h"      // _PyErr_EmitSyntaxWarning()
 
 #include "pycore_opcode_utils.h"
 #include "pycore_opcode_metadata.h" // OPCODE_HAS_ARG, etc
@@ -1389,9 +1390,26 @@ is_real_const(PyObject *obj) {
          || obj == Py_Ellipsis);
 }
 
+
+static int
+make_warning(PyObject *filename, location loc, const char *format, ...)
+{
+    va_list vargs;
+    va_start(vargs, format);
+    PyObject *msg = PyUnicode_FromFormatV(format, vargs);
+    va_end(vargs);
+    if (msg == NULL) {
+        return ERROR;
+    }
+    int ret = _PyErr_EmitSyntaxWarning(msg, filename, loc.lineno, loc.col_offset + 1,
+                                       loc.end_lineno, loc.end_col_offset + 1);
+    Py_DECREF(msg);
+    return ret;
+}
+
 static int
 warn_is_comparison(cfg_instr *inst,
-                   int oparg, PyObject *consts,
+                   int oparg, PyObject *consts, PyObject *filename,
                    int n)
 {
     cfg_instr *left = &inst[n - 2];
@@ -1404,7 +1422,7 @@ warn_is_comparison(cfg_instr *inst,
             const char *msg = (oparg == 0)
                     ? "\"is\" with '%.200s' literal. Did you mean \"==\"?"
                     : "\"is not\" with '%.200s' literal. Did you mean \"!=\"?";
-            
+            return make_warning(filename, left->i_loc, msg, left_const->ob_type->tp_name);
         }
     }
     return SUCCESS;
@@ -1732,7 +1750,7 @@ optimize_load_const(PyObject *const_cache, cfg_builder *g, PyObject *consts) {
 }
 
 static int
-optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
+optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts, PyObject *filename)
 {
     assert(PyDict_CheckExact(const_cache));
     assert(PyList_CheckExact(consts));
@@ -1879,7 +1897,7 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts)
             case CONTAINS_OP:
             case IS_OP:
                 if (loads_const(bb->b_instr[i - 1].i_opcode) || loads_const(bb->b_instr[i - 2].i_opcode)) {
-                    warn_is_comparison(bb->b_instr, oparg, consts, i);
+                    warn_is_comparison(bb->b_instr, oparg, consts, filename, i);
                 }
                 if (nextop == TO_BOOL) {
                     INSTR_SET_OP0(inst, NOP);
@@ -1948,7 +1966,7 @@ remove_redundant_nops_and_jumps(cfg_builder *g)
    NOPs.  Later those NOPs are removed.
 */
 static int
-optimize_cfg(cfg_builder *g, PyObject *consts, PyObject *const_cache, int firstlineno)
+optimize_cfg(cfg_builder *g, PyObject *consts, PyObject *const_cache, int firstlineno, PyObject *filename)
 {
     assert(PyDict_CheckExact(const_cache));
     RETURN_IF_ERROR(check_cfg(g));
@@ -1957,7 +1975,7 @@ optimize_cfg(cfg_builder *g, PyObject *consts, PyObject *const_cache, int firstl
     RETURN_IF_ERROR(resolve_line_numbers(g, firstlineno));
     RETURN_IF_ERROR(optimize_load_const(const_cache, g, consts));
     for (basicblock *b = g->g_entryblock; b != NULL; b = b->b_next) {
-        RETURN_IF_ERROR(optimize_basic_block(const_cache, b, consts));
+        RETURN_IF_ERROR(optimize_basic_block(const_cache, b, consts, filename));
     }
     RETURN_IF_ERROR(remove_redundant_nops_and_pairs(g->g_entryblock));
     RETURN_IF_ERROR(remove_unreachable(g->g_entryblock));
@@ -2611,7 +2629,7 @@ resolve_line_numbers(cfg_builder *g, int firstlineno)
 
 int
 _PyCfg_OptimizeCodeUnit(cfg_builder *g, PyObject *consts, PyObject *const_cache,
-                        int nlocals, int nparams, int firstlineno)
+                        int nlocals, int nparams, int firstlineno, PyObject *filename)
 {
     assert(cfg_builder_check(g));
     /** Preprocessing **/
@@ -2621,7 +2639,7 @@ _PyCfg_OptimizeCodeUnit(cfg_builder *g, PyObject *consts, PyObject *const_cache,
     RETURN_IF_ERROR(label_exception_targets(g->g_entryblock));
 
     /** Optimization **/
-    RETURN_IF_ERROR(optimize_cfg(g, consts, const_cache, firstlineno));
+    RETURN_IF_ERROR(optimize_cfg(g, consts, const_cache, firstlineno, filename));
     RETURN_IF_ERROR(remove_unused_consts(g->g_entryblock, consts));
     RETURN_IF_ERROR(
         add_checks_for_loads_of_uninitialized_variables(
@@ -3037,8 +3055,9 @@ _PyCompile_OptimizeCfg(PyObject *seq, PyObject *consts, int nlocals)
         goto error;
     }
     int nparams = 0, firstlineno = 1;
+    PyObject *filename = PyUnicode_FromString("__meow__");
     if (_PyCfg_OptimizeCodeUnit(g, consts, const_cache, nlocals,
-                                nparams, firstlineno) < 0) {
+                                nparams, firstlineno, filename) < 0) {
         goto error;
     }
     res = cfg_to_instruction_sequence(g);
