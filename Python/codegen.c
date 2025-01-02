@@ -1815,7 +1815,6 @@ codegen_jump_if(compiler *c, location loc,
     case Compare_kind: {
         Py_ssize_t n = asdl_seq_LEN(e->v.Compare.ops) - 1;
         if (n > 0) {
-            RETURN_IF_ERROR(codegen_check_compare(c, e));
             NEW_JUMP_TARGET_LABEL(c, cleanup);
             VISIT(c, expr, e->v.Compare.left);
             for (Py_ssize_t i = 0; i < n; i++) {
@@ -3458,7 +3457,6 @@ codegen_compare(compiler *c, expr_ty e)
     location loc = LOC(e);
     Py_ssize_t i, n;
 
-    RETURN_IF_ERROR(codegen_check_compare(c, e));
     VISIT(c, expr, e->v.Compare.left);
     assert(asdl_seq_LEN(e->v.Compare.ops) > 0);
     n = asdl_seq_LEN(e->v.Compare.ops) - 1;

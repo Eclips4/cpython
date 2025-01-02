@@ -1408,6 +1408,14 @@ make_warning(PyObject *filename, location loc, const char *format, ...)
 }
 
 static int
+format_warning(int oparg, PyObject *const_val, PyObject *filename, cfg_instr *inst)
+{
+    const char *msg = (oparg == 0)
+            ? "\"is\" with '%.200s' literal. Did you mean \"==\"?"
+            : "\"is not\" with '%.200s' literal. Did you mean \"!=\"?";
+    return make_warning(filename, inst->i_loc, msg, const_val->ob_type->tp_name);
+}
+static int
 warn_is_comparison(cfg_instr *inst,
                    int oparg, PyObject *consts, PyObject *filename,
                    int n)
@@ -1416,13 +1424,21 @@ warn_is_comparison(cfg_instr *inst,
     if (loads_const(left->i_opcode)) {
         PyObject *left_const = get_const_value(left->i_opcode, left->i_oparg, consts);
         if (left_const == NULL) {
-            return ERROR;  
+            return ERROR;
         }
         if (!is_real_const(left_const)) {
-            const char *msg = (oparg == 0)
-                    ? "\"is\" with '%.200s' literal. Did you mean \"==\"?"
-                    : "\"is not\" with '%.200s' literal. Did you mean \"!=\"?";
-            return make_warning(filename, left->i_loc, msg, left_const->ob_type->tp_name);
+            return format_warning(left->i_oparg, left_const, filename, left);
+        }
+    }
+
+    cfg_instr *right = &inst[n - 1];
+    if (loads_const(right->i_opcode)) {
+        PyObject *right_const = get_const_value(right->i_opcode, right->i_oparg, consts);
+        if (right_const == NULL) {
+            return ERROR;
+        }
+        if (!is_real_const(right_const)) {
+            return format_warning(left->i_oparg, right_const, filename, left);
         }
     }
     return SUCCESS;
@@ -1896,13 +1912,13 @@ optimize_basic_block(PyObject *const_cache, basicblock *bb, PyObject *consts, Py
                 break;
             case CONTAINS_OP:
             case IS_OP:
-                if (loads_const(bb->b_instr[i - 1].i_opcode) || loads_const(bb->b_instr[i - 2].i_opcode)) {
-                    warn_is_comparison(bb->b_instr, oparg, consts, filename, i);
-                }
                 if (nextop == TO_BOOL) {
                     INSTR_SET_OP0(inst, NOP);
                     INSTR_SET_OP1(&bb->b_instr[i + 1], opcode, oparg);
                     continue;
+                }
+                if (inst->i_opcode == IS_OP && (loads_const(bb->b_instr[i - 1].i_opcode) || loads_const(bb->b_instr[i - 2].i_opcode))) {
+                    warn_is_comparison(bb->b_instr, oparg, consts, filename, i);
                 }
                 break;
             case TO_BOOL:
