@@ -29,6 +29,7 @@
 #include "pycore_symtable.h"      // PySTEntryObject
 #include "pycore_unicodeobject.h" // _PyUnicode_EqualToASCIIString
 #include "pycore_ceval.h"         // SPECIAL___ENTER__
+#include "pycore_flowgraph.h"
 
 #define NEED_OPCODE_METADATA
 #include "pycore_opcode_metadata.h" // _PyOpcode_opcode_metadata, _PyOpcode_num_popped/pushed
@@ -63,6 +64,7 @@
 
 struct _PyCompiler;
 typedef struct _PyCompiler compiler;
+typedef struct _PyCfgBuilder cfg_builder;
 
 #define INSTR_SEQUENCE(C) _PyCompile_InstrSequence(C)
 #define FUTURE_FEATURES(C) _PyCompile_FutureFeatures(C)

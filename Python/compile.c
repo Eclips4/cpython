@@ -1464,6 +1464,14 @@ _PyCompile_OptimizeAndAssemble(compiler *c, int addNone)
     return optimize_and_assemble_code_unit(u, const_cache, code_flags, filename);
 }
 
+void
+DoFun(compiler *c)
+{
+    struct compiler_unit *u = c->u;
+    cfg_builder *g = _PyCfg_FromInstructionSequence(u->u_instr_sequence);
+    dump_cfg_dot(g);
+
+}
 PyCodeObject *
 _PyAST_Compile(mod_ty mod, PyObject *filename, PyCompilerFlags *pflags,
                int optimize, PyArena *arena)

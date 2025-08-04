@@ -273,7 +273,7 @@ basicblock_insert_instruction(basicblock *block, int pos, cfg_instr *instr) {
 }
 
 /* For debugging purposes only */
-#if 0
+#if 1
 static void
 dump_instr(cfg_instr *i)
 {
@@ -328,6 +328,101 @@ _PyCfgBuilder_DumpGraph(const basicblock *entryblock, const basicblock *mark)
     for (const basicblock *b = entryblock; b != NULL; b = b->b_next) {
         dump_basicblock(b, b == mark);
     }
+}
+
+static void dump_instr_dot(FILE *f, cfg_instr *i)
+{
+    const char *jump = is_jump(i) ? "jump" : "";
+    char arg[128] = "";
+
+    if (OPCODE_HAS_ARG(i->i_opcode)) {
+        sprintf(arg, "arg: %d", i->i_oparg);
+    }
+    if (HAS_TARGET(i->i_opcode) && i->i_target != NULL) {
+        sprintf(arg, "target: %d", i->i_target->b_label.id);
+    }
+
+    fprintf(f,
+        "        <TR><TD>%s</TD><TD>%s %s</TD><TD>lineno: %d</TD></TR>\n",
+        _PyOpcode_OpName[i->i_opcode], arg, jump, i->i_loc.lineno);
+}
+
+static void dump_basicblock_dot(FILE *f, const basicblock *b)
+{
+    if (b->b_iused == 0) {
+        return;
+    }
+
+    // Use pointer as node identifier, but show b_label.id in the label
+    fprintf(f,
+        "    bb_%p [label=<\n"
+        "        <TABLE BORDER=\"1\" CELLBORDER=\"1\" CELLSPACING=\"0\">\n"
+        "            <TR><TD COLSPAN=\"3\" BGCOLOR=\"gray\"><B>Block %d</B></TD></TR>\n",
+        (void *)b, b->b_label.id);
+
+    for (int i = 0; i < b->b_iused; i++) {
+        dump_instr_dot(f, &b->b_instr[i]);
+    }
+
+    fprintf(f,
+        "        </TABLE>\n"
+        "    >];\n");
+
+    if (b->b_iused > 0) {
+        cfg_instr *last = &b->b_instr[b->b_iused - 1];
+        if (HAS_TARGET(last->i_opcode) && last->i_target != NULL) {
+            fprintf(f, "    bb_%p -> bb_%p;\n",
+                    (void *)b, (void *)last->i_target);
+        }
+    }
+
+    if (BB_HAS_FALLTHROUGH(b) && b->b_next) {
+        fprintf(f, "    bb_%p -> bb_%p [style=dashed];\n",
+                (void *)b, (void *)b->b_next);
+    }
+}
+
+static int number = 0;
+
+void dump_cfg_dot(cfg_builder *g) {
+    char *building =  getenv("BUILD");
+    int build = 0;
+    if (building != NULL && *building >= '0') {
+        build = *building - '0';
+    }
+    if (build) {
+        return;
+    }
+    char filename[64];
+    char out_image[64];
+
+    if (g->g_entryblock == NULL) {
+        return;
+    }
+    snprintf(filename, sizeof(filename), "cfg_%03d.dot", number);
+    snprintf(out_image, sizeof(out_image), "cfg_%03d.png", number);
+
+    FILE *f = fopen(filename, "w");
+    if (!f) {
+        perror("fopen");
+        return;
+    }
+
+    fprintf(f, "digraph CFG {\n");
+    fprintf(f, "    node [shape=plaintext fontname=\"Courier\"];\n");
+
+    for (basicblock *b = g->g_entryblock; b != NULL; b = b->b_next) {
+        dump_basicblock_dot(f, b);
+    }
+
+    fprintf(f, "}\n");
+    fclose(f);
+
+    char cmd[128];
+    snprintf(cmd, sizeof(cmd), "dot -Tpng %s -o %s", filename, out_image);
+    system(cmd);
+
+    number++;
 }
 
 #endif
@@ -2532,10 +2627,6 @@ optimize_cfg(cfg_builder *g, PyObject *consts, PyObject *const_cache, int firstl
 {
     assert(PyDict_CheckExact(const_cache));
     RETURN_IF_ERROR(check_cfg(g));
-    RETURN_IF_ERROR(inline_small_or_no_lineno_blocks(g->g_entryblock));
-    RETURN_IF_ERROR(remove_unreachable(g->g_entryblock));
-    RETURN_IF_ERROR(resolve_line_numbers(g, firstlineno));
-    RETURN_IF_ERROR(optimize_load_const(const_cache, g, consts));
     for (basicblock *b = g->g_entryblock; b != NULL; b = b->b_next) {
         RETURN_IF_ERROR(optimize_basic_block(const_cache, b, consts));
     }
@@ -3631,6 +3722,22 @@ resolve_line_numbers(cfg_builder *g, int firstlineno)
     return SUCCESS;
 }
 
+static bool
+all_exits_have_lineno(basicblock *entryblock) {
+    for (basicblock *b = entryblock; b != NULL; b = b->b_next) {
+        for (int i = 0; i < b->b_iused; i++) {
+            cfg_instr *instr = &b->b_instr[i];
+            if (instr->i_opcode == RETURN_VALUE) {
+                if (instr->i_loc.lineno < 0) {
+                    // assert(0);
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 int
 _PyCfg_OptimizeCodeUnit(cfg_builder *g, PyObject *consts, PyObject *const_cache,
                         int nlocals, int nparams, int firstlineno)
@@ -3641,19 +3748,11 @@ _PyCfg_OptimizeCodeUnit(cfg_builder *g, PyObject *consts, PyObject *const_cache,
     RETURN_IF_ERROR(translate_jump_labels_to_targets(g->g_entryblock));
     RETURN_IF_ERROR(mark_except_handlers(g->g_entryblock));
     RETURN_IF_ERROR(label_exception_targets(g->g_entryblock));
-
     /** Optimization **/
     RETURN_IF_ERROR(optimize_cfg(g, consts, const_cache, firstlineno));
-    RETURN_IF_ERROR(remove_unused_consts(g->g_entryblock, consts));
-    RETURN_IF_ERROR(
-        add_checks_for_loads_of_uninitialized_variables(
-            g->g_entryblock, nlocals, nparams));
-    RETURN_IF_ERROR(insert_superinstructions(g));
+    dump_cfg_dot(g);
 
-    RETURN_IF_ERROR(push_cold_blocks_to_end(g));
-    RETURN_IF_ERROR(resolve_line_numbers(g, firstlineno));
     // temporarily remove assert. See https://github.com/python/cpython/issues/125845
-    // assert(all_exits_have_lineno(g->g_entryblock));
     return SUCCESS;
 }
 

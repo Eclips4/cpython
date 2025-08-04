@@ -197,7 +197,7 @@ int _PyCodegen_Module(struct _PyCompiler *c, _Py_SourceLocation loc, asdl_stmt_s
 int _PyCompile_ConstCacheMergeOne(PyObject *const_cache, PyObject **obj);
 
 PyCodeObject *_PyCompile_OptimizeAndAssemble(struct _PyCompiler *c, int addNone);
-
+void DoFun(struct _PyCompiler *c);
 Py_ssize_t _PyCompile_DictAddObj(PyObject *dict, PyObject *o);
 int _PyCompile_Error(struct _PyCompiler *c, _Py_SourceLocation loc, const char *format, ...);
 int _PyCompile_Warn(struct _PyCompiler *c, _Py_SourceLocation loc, const char *format, ...);
