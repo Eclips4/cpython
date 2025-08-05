@@ -2627,6 +2627,10 @@ optimize_cfg(cfg_builder *g, PyObject *consts, PyObject *const_cache, int firstl
 {
     assert(PyDict_CheckExact(const_cache));
     RETURN_IF_ERROR(check_cfg(g));
+    RETURN_IF_ERROR(inline_small_or_no_lineno_blocks(g->g_entryblock));
+    RETURN_IF_ERROR(remove_unreachable(g->g_entryblock));
+    RETURN_IF_ERROR(resolve_line_numbers(g, firstlineno));
+    RETURN_IF_ERROR(optimize_load_const(const_cache, g, consts));
     for (basicblock *b = g->g_entryblock; b != NULL; b = b->b_next) {
         RETURN_IF_ERROR(optimize_basic_block(const_cache, b, consts));
     }
@@ -3750,6 +3754,14 @@ _PyCfg_OptimizeCodeUnit(cfg_builder *g, PyObject *consts, PyObject *const_cache,
     RETURN_IF_ERROR(label_exception_targets(g->g_entryblock));
     /** Optimization **/
     RETURN_IF_ERROR(optimize_cfg(g, consts, const_cache, firstlineno));
+    RETURN_IF_ERROR(remove_unused_consts(g->g_entryblock, consts));
+    RETURN_IF_ERROR(
+        add_checks_for_loads_of_uninitialized_variables(
+            g->g_entryblock, nlocals, nparams));
+    RETURN_IF_ERROR(insert_superinstructions(g));
+
+    RETURN_IF_ERROR(push_cold_blocks_to_end(g));
+    RETURN_IF_ERROR(resolve_line_numbers(g, firstlineno));
     dump_cfg_dot(g);
 
     // temporarily remove assert. See https://github.com/python/cpython/issues/125845
