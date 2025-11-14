@@ -58,6 +58,9 @@ DTRACE_HEADERS= @DTRACE_HEADERS@
 DTRACE_OBJS=    @DTRACE_OBJS@
 DSYMUTIL=       @DSYMUTIL@
 DSYMUTIL_PATH=  @DSYMUTIL_PATH@
+CARGO_HOME=@CARGO_HOME@
+CARGO_TARGET_DIR=@CARGO_TARGET_DIR@
+CARGO_PROFILE=@CARGO_PROFILE@
 
 GNULD=		@GNULD@
 
@@ -1648,6 +1651,10 @@ Makefile Modules/config.c: Makefile.pre \
 				$(srcdir)/Modules/Setup
 	@mv config.c Modules
 	@echo "The Makefile was updated, you may need to re-run make."
+
+.PHONY: regen-rust-wrapper-h
+regen-rust-wrapper-h: $(PYTHON_HEADERS)
+	PYTHON_HEADERS="$(PYTHON_HEADERS)" $(PYTHON_FOR_REGEN) $(srcdir)/Tools/build/regen-rust-wrapper-h.py
 
 .PHONY: regen-test-frozenmain
 regen-test-frozenmain: $(BUILDPYTHON)
@@ -3254,8 +3261,15 @@ profile-removal:
 	rm -f profile-run-stamp
 	rm -f profile-bolt-stamp
 
+.PHONY: clean-rust
+clean-rust:
+	@if test @CARGO_HOME@ != ''; then \
+		echo Running cargo clean...; \
+		$(CARGO_HOME)/bin/cargo clean; \
+	fi
+
 .PHONY: clean
-clean: clean-retain-profile clean-bolt
+clean: clean-retain-profile clean-bolt clean-rust
 	@if test @DEF_MAKE_ALL_RULE@ = profile-opt -o @DEF_MAKE_ALL_RULE@ = bolt-opt; then \
 		rm -f profile-gen-stamp profile-clean-stamp; \
 		$(MAKE) profile-removal; \
