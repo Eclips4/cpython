@@ -4316,8 +4316,8 @@ if test "x$CARGO_HOME" = "x"; then
   dnl try to guess the default UNIX value of ~/.cargo
   CARGO_HOME="$HOME/.cargo"
 fi
-AC_CHECK_PROG(HAS_CARGO, [cargo], ["$CARGO_HOME"], [found], [not-found])
-if test $HAS_CARGO = "not-found"; then
+AC_CHECK_PROG(HAVE_CARGO, [cargo], ["$CARGO_HOME"], [yes], [no])
+if test $HAVE_CARGO = "no"; then
   AC_MSG_RESULT([n/a])
   AC_MSG_WARN([Could not find the cargo executable. It can be installed via rustup])
 else
@@ -8183,7 +8183,7 @@ PY_STDLIB_MOD([_uuid],
   [$LIBUUID_CFLAGS], [$LIBUUID_LIBS])
 
 PY_STDLIB_MOD([_base64],
-  [], [test "$HAS_CARGO" = "found"],
+  [test "$HAVE_CARGO" = yes], [test "$HAVE_CARGO" = yes],
   [], [])
 
 dnl compression libs
