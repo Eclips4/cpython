@@ -111,8 +111,24 @@ impl PyMethodDef {
 unsafe impl Sync for PyMethodDef {}
 unsafe impl Send for PyMethodDef {}
 
-pub const PyObject_HEAD_INIT: PyObject =
-    unsafe { std::mem::MaybeUninit::<PyObject>::zeroed().assume_init() };
+#[cfg(py_gil_disabled)]
+pub const PyObject_HEAD_INIT: PyObject = {
+    let mut obj: PyObject = unsafe { std::mem::MaybeUninit::zeroed().assume_init() };
+    obj.ob_flags = _Py_STATICALLY_ALLOCATED_FLAG as _;
+    obj
+};
 
-pub const PyModuleDef_HEAD_INIT: PyModuleDef_Base =
-    unsafe { std::mem::MaybeUninit::<PyModuleDef_Base>::zeroed().assume_init() };
+#[cfg(not(py_gil_disabled))]
+pub const PyObject_HEAD_INIT: PyObject = PyObject {
+    __bindgen_anon_1: _object__bindgen_ty_1 {
+        ob_refcnt_full: _Py_STATIC_IMMORTAL_INITIAL_REFCNT as i64,
+    },
+    ob_type: std::ptr::null_mut(),
+};
+
+pub const PyModuleDef_HEAD_INIT: PyModuleDef_Base = PyModuleDef_Base {
+    ob_base: PyObject_HEAD_INIT,
+    m_init: None,
+    m_index: 0,
+    m_copy: std::ptr::null_mut(),
+};
