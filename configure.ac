@@ -4328,27 +4328,139 @@ else
     CARGO_TARGET_DIR='debug'
     CARGO_PROFILE='dev'
   fi
-  # Set CARGO_TARGET for cross-compilation
-  case "$host" in
-    aarch64-apple-ios-simulator)
-      CARGO_TARGET="aarch64-apple-ios-sim"
+  # Set CARGO_TARGET for cross-compilation by normalizing the canonical host
+  # triple and picking the closest Rust target supported by the toolchain.
+  CARGO_TARGET=
+  rustc_cmd=
+  if test -n "$CARGO_HOME" && test -x "$CARGO_HOME/bin/rustc"; then
+    rustc_cmd="$CARGO_HOME/bin/rustc"
+  elif command -v rustc >/dev/null 2>&1; then
+    rustc_cmd=rustc
+  fi
+
+  cargo_norm_cpu="$host_cpu"
+  case "$cargo_norm_cpu" in
+    arm64)
+      cargo_norm_cpu=aarch64
       ;;
-    *-apple-darwin*)
-      cargo_host="$host"
-      case "$cargo_host" in
-        arm64-apple-*)
-          cargo_host="aarch64${cargo_host#arm64}"
-          ;;
-      esac
-      CARGO_TARGET="${cargo_host%%-apple-darwin*}-apple-darwin"
-      ;;
-    *-pc-linux-*)
-      CARGO_TARGET=$(echo "$host" | sed 's/-pc-linux-/-unknown-linux-/')
-      ;;
-    *)
-      CARGO_TARGET="$host"
+    armv[0-9]*l)
+      cargo_norm_cpu=${cargo_norm_cpu%l}
       ;;
   esac
+  cargo_cpu_variants="$host_cpu"
+  if test "$cargo_norm_cpu" != "$host_cpu"; then
+    cargo_cpu_variants="$cargo_cpu_variants $cargo_norm_cpu"
+  fi
+
+  cargo_norm_vendor="$host_vendor"
+  case "$cargo_norm_vendor" in
+    pc)
+      cargo_norm_vendor=unknown
+      ;;
+  esac
+  cargo_vendor_variants="$host_vendor"
+  if test "$cargo_norm_vendor" != "$host_vendor"; then
+    cargo_vendor_variants="$cargo_vendor_variants $cargo_norm_vendor"
+  fi
+  case " $cargo_vendor_variants " in
+    *" unknown "*) ;;
+    *) cargo_vendor_variants="$cargo_vendor_variants unknown" ;;
+  esac
+  case "$host_os" in
+    *mingw*|*msys*|*cygwin*|*windows*)
+      case " $cargo_vendor_variants " in
+        *" pc "*) ;;
+        *) cargo_vendor_variants="$cargo_vendor_variants pc" ;;
+      esac
+      ;;
+  esac
+  case "$host_os" in
+    linux-android*|linux-androideabi*)
+      case " $cargo_vendor_variants " in
+        *" linux "*) ;;
+        *) cargo_vendor_variants="$cargo_vendor_variants linux" ;;
+      esac
+      ;;
+  esac
+
+  cargo_os_variants="$host_os"
+  cargo_os_sim=$(printf "%s\n" "$host_os" | sed 's/simulator$/sim/')
+  if test "$cargo_os_sim" != "$host_os"; then
+    cargo_os_variants="$cargo_os_variants $cargo_os_sim"
+  fi
+  case "$host_os" in
+    *mingw*|*msys*|*cygwin*)
+      cargo_os_variants="$cargo_os_variants windows-gnu"
+      ;;
+  esac
+  for cargo_os_variant in $cargo_os_variants; do
+    cargo_os_trim=$(printf "%s\n" "$cargo_os_variant" | sed 's/[0-9][0-9.]*$//')
+    if test -n "$cargo_os_trim" && test "$cargo_os_trim" != "$cargo_os_variant"; then
+      cargo_os_variants="$cargo_os_variants $cargo_os_trim"
+    fi
+  done
+  for cargo_os_variant in $cargo_os_variants; do
+    case "$cargo_os_variant" in
+      *-*)
+        cargo_os_suffix=${cargo_os_variant#*-}
+        if test -n "$cargo_os_suffix" && test "$cargo_os_suffix" != "$cargo_os_variant"; then
+          cargo_os_variants="$cargo_os_variants $cargo_os_suffix"
+        fi
+        ;;
+    esac
+  done
+  for cargo_os_variant in $cargo_os_variants; do
+    cargo_os_trim=$(printf "%s\n" "$cargo_os_variant" | sed 's/[0-9][0-9.]*$//')
+    if test -n "$cargo_os_trim" && test "$cargo_os_trim" != "$cargo_os_variant"; then
+      cargo_os_variants="$cargo_os_variants $cargo_os_trim"
+    fi
+  done
+
+  rustc_target_list=
+  if test -n "$rustc_cmd"; then
+    rustc_target_list=$($rustc_cmd --print target-list 2>/dev/null)
+  fi
+  if test -n "$rustc_target_list"; then
+    for cargo_cpu_variant in $cargo_cpu_variants; do
+      test -n "$cargo_cpu_variant" || continue
+      for cargo_vendor_variant in $cargo_vendor_variants; do
+        test -n "$cargo_vendor_variant" || continue
+        for cargo_os_variant in $cargo_os_variants; do
+          test -n "$cargo_os_variant" || continue
+          cargo_candidate=$cargo_cpu_variant-$cargo_vendor_variant-$cargo_os_variant
+          if printf "%s\n" "$rustc_target_list" | grep -Fx "$cargo_candidate" >/dev/null 2>&1; then
+            CARGO_TARGET="$cargo_candidate"
+            break 3
+          fi
+        done
+      done
+    done
+  fi
+  if test -z "$CARGO_TARGET"; then
+    cargo_target_cpu="$cargo_norm_cpu"
+    cargo_target_vendor="$cargo_norm_vendor"
+    cargo_target_os="$host_os"
+    cargo_target_os=$(printf "%s\n" "$cargo_target_os" | sed 's/simulator$/sim/')
+    case "$cargo_target_os" in
+      *mingw*|*msys*|*cygwin*)
+        cargo_target_vendor=pc
+        cargo_target_os="windows-gnu"
+        ;;
+      linux-android*|linux-androideabi*)
+        cargo_target_vendor=linux
+        cargo_target_os=${cargo_target_os#linux-}
+        ;;
+    esac
+    case "$cargo_target_os" in
+      *[.][0-9]*|*darwin[0-9]*|*ios[0-9]*|*tvos[0-9]*|*visionos[0-9]*|*watchos[0-9]*|*bsd[0-9]*|dragonfly[0-9]*|*android[0-9]*|*aix[0-9]*|*hpux[0-9]*|*solaris[0-9]*)
+        cargo_target_os_trim=$(printf "%s\n" "$cargo_target_os" | sed 's/[0-9][0-9.]*$//')
+        if test -n "$cargo_target_os_trim"; then
+          cargo_target_os="$cargo_target_os_trim"
+        fi
+        ;;
+    esac
+    CARGO_TARGET="$cargo_target_cpu-$cargo_target_vendor-$cargo_target_os"
+  fi
 fi
 AC_SUBST([CARGO_HOME])
 AC_SUBST([CARGO_TARGET_DIR])
