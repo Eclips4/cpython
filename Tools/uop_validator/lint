@@ -1,0 +1,39 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash shell.nix
+set -u
+
+usage() {
+    echo "usage: ./lint [--fix] [FILE...]" >&2
+    exit 2
+}
+
+root="$(dirname "$(realpath "$0")")"
+fix=0
+files=()
+for arg in "$@"; do
+    case "$arg" in
+        --fix) fix=1 ;;
+        -h|--help) usage ;;
+        -*) usage ;;
+        *) files+=("$(realpath --relative-to="$root" "$arg")") ;;
+    esac
+done
+
+cd "$root"
+[ ${#files[@]} -eq 0 ] && files=(uopval tests)
+
+status=0
+run() {
+    echo "== $*"
+    "$@" || status=1
+}
+
+if [ $fix -eq 1 ]; then
+    run ruff check --fix "${files[@]}"
+    run ruff format "${files[@]}"
+else
+    run ruff check "${files[@]}"
+    run ruff format --diff "${files[@]}"
+fi
+run mypy "${files[@]}"
+exit $status

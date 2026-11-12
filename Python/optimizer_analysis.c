@@ -245,12 +245,103 @@ is_terminator_uop(const _PyUOpInstruction *uop)
 
 #define ADD_OP(OP, ARG, OPERAND) add_op(ctx, this_instr, (OP), (ARG), (OPERAND))
 
+int _Py_uop_capture_active = 0;
+int _Py_uop_capture_origin[UOP_MAX_TRACE_LENGTH];
+PyObject *_Py_uop_capture_input_const[UOP_MAX_TRACE_LENGTH];
+PyObject *_Py_uop_capture_input_const_code[UOP_MAX_TRACE_LENGTH];
+static const _PyUOpInstruction *capture_trace_base = NULL;
+
+static inline void
+capture_origin(JitOptContext *ctx, int input_index)
+{
+    if (_Py_uop_capture_active) {
+        _Py_uop_capture_origin[ctx->out_buffer.next - ctx->out_buffer.start] = input_index;
+    }
+}
+
+static PyObject *
+capture_global_value(PyObject *dict, uint64_t version, int64_t index)
+{
+    if (dict == NULL || !PyDict_CheckExact(dict)) {
+        return NULL;
+    }
+    PyDictObject *d = (PyDictObject *)dict;
+    if (d->ma_keys->dk_kind != DICT_KEYS_UNICODE || d->ma_keys->dk_version != version) {
+        return NULL;
+    }
+    if (index < 0 || index >= d->ma_keys->dk_nentries) {
+        return NULL;
+    }
+    return DK_UNICODE_ENTRIES(d->ma_keys)[index].me_value;
+}
+
+static void
+capture_input_facts(JitOptContext *ctx, _PyUOpInstruction *this_instr, int i)
+{
+    int opcode = this_instr->opcode;
+    int oparg = this_instr->oparg;
+    if (ctx->frame == NULL) {
+        return;
+    }
+    if (opcode == _LOAD_CONST && ctx->frame->code != NULL) {
+        PyCodeObject *current_code = (PyCodeObject *)ctx->frame->code;
+        if (oparg < PyTuple_GET_SIZE(current_code->co_consts)) {
+            _Py_uop_capture_input_const[i] = PyTuple_GET_ITEM(current_code->co_consts, oparg);
+            _Py_uop_capture_input_const_code[i] = (PyObject *)current_code;
+        }
+    }
+    else if (opcode == _LOAD_GLOBAL_MODULE && ctx->frame->func != NULL) {
+        _Py_uop_capture_input_const[i] = capture_global_value(ctx->frame->func->func_globals, this_instr->operand0, (int64_t)this_instr->operand1);
+        _Py_uop_capture_input_const_code[i] = ctx->frame->code != NULL ? (PyObject *)ctx->frame->code : NULL;
+    }
+    else if (opcode == _LOAD_COMMON_CONSTANT && oparg < NUM_COMMON_CONSTANTS) {
+        _Py_uop_capture_input_const[i] = PyStackRef_AsPyObjectBorrow(_PyInterpreterState_GET()->common_consts[oparg]);
+    }
+    else if (opcode == _LOAD_ATTR_MODULE && ctx->frame->stack_pointer > ctx->frame->stack) {
+        PyObject *owner = _Py_uop_sym_get_const(ctx, ctx->frame->stack_pointer[-1]);
+        if (owner != NULL && PyModule_CheckExact(owner)) {
+            _Py_uop_capture_input_const[i] = capture_global_value(((PyModuleObject *)owner)->md_dict, this_instr->operand0, (int64_t)this_instr->operand1);
+        }
+    }
+    else if (opcode == _LOAD_SPECIAL && ctx->frame->stack_pointer - 2 >= ctx->frame->stack) {
+        PyTypeObject *type = _Py_uop_sym_get_probable_type(ctx->frame->stack_pointer[-1]);
+        if (type != NULL && oparg <= SPECIAL_MAX) {
+            PyObject *descr = _PyType_Lookup(type, _Py_SpecialMethods[oparg].name);
+            if (descr != NULL) {
+                _Py_uop_capture_input_const[i] = descr;
+                _Py_uop_capture_input_const_code[i] = (PyObject *)type;
+            }
+        }
+    }
+    else if (opcode == _LOAD_SUPER_ATTR_METHOD && ctx->frame->stack_pointer - 3 >= ctx->frame->stack) {
+        PyTypeObject *su_type = (PyTypeObject *)_Py_uop_sym_get_const(ctx, ctx->frame->stack_pointer[-2]);
+        PyTypeObject *obj_type = _Py_uop_sym_get_type(ctx->frame->stack_pointer[-1]);
+        if (su_type != NULL && obj_type != NULL && PyType_Check(su_type) && PyType_IsSubtype(obj_type, su_type)) {
+            PyObject *name = PyTuple_GET_ITEM(((PyCodeObject *)ctx->frame->code)->co_names, oparg >> 2);
+            PyObject *lookup = _PySuper_LookupDescr(su_type, obj_type, name);
+            if (lookup == NULL) {
+                PyErr_Clear();
+            }
+            else {
+                _Py_uop_capture_input_const[i] = lookup;
+                _Py_uop_capture_input_const_code[i] = (PyObject *)obj_type;
+                Py_DECREF(lookup);
+            }
+        }
+    }
+    else if (opcode == _LOAD_GLOBAL_BUILTINS) {
+        _Py_uop_capture_input_const[i] = capture_global_value(_PyInterpreterState_GET()->builtins, this_instr->operand0, (int64_t)this_instr->operand1);
+        _Py_uop_capture_input_const_code[i] = ctx->frame->code != NULL ? (PyObject *)ctx->frame->code : NULL;
+    }
+}
+
 static inline void
 add_op(JitOptContext *ctx, _PyUOpInstruction *this_instr,
        uint16_t opcode, uint16_t oparg, uintptr_t operand0)
 {
     _PyUOpInstruction *out = ctx->out_buffer.next;
     assert(out < ctx->out_buffer.end);
+    capture_origin(ctx, (int)(this_instr - capture_trace_base));
     out->opcode = (opcode);
     out->format = this_instr->format;
     out->oparg = (oparg);
@@ -589,6 +680,7 @@ optimize_uops(
     uint32_t opcode = UINT16_MAX;
 
     uop_buffer_init(&ctx->out_buffer, output, UOP_MAX_TRACE_LENGTH);
+    capture_trace_base = trace;
 
     // Make sure that watchers are set up
     PyInterpreterState *interp = _PyInterpreterState_GET();
@@ -613,6 +705,7 @@ optimize_uops(
         if (ctx->done) {
             // Don't do any more optimization, but
             // we still need to reach a terminator for corrctness.
+            capture_origin(ctx, i);
             *(ctx->out_buffer.next++) = *this_instr;
             if (is_terminator_uop(this_instr)) {
                 break;
@@ -631,6 +724,10 @@ optimize_uops(
 
         _PyUOpInstruction *out_ptr = ctx->out_buffer.next;
 
+        if (_Py_uop_capture_active) {
+            capture_input_facts(ctx, this_instr, i);
+        }
+
         switch (opcode) {
 
 #include "optimizer_cases.c.h"
@@ -641,6 +738,7 @@ optimize_uops(
         }
         // If no ADD_OP was called during this iteration, copy the original instruction
         if (ctx->out_buffer.next == out_ptr) {
+            capture_origin(ctx, i);
             *(ctx->out_buffer.next++) = *this_instr;
         }
         assert(ctx->frame != NULL);

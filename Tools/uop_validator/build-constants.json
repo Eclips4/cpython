@@ -1,0 +1,1 @@
+{"bits_per_digit": 30, "sizeof_one_digit_int": 28, "version": "3.16.0a0 (heads/main-dirty:f2eaf174b25, Sep 12 2026, 17:29:26) [GCC 15.3.0]", "true_id_low": 4064, "false_id_low": 0, "bool_is_int_subclass": true, "true_is_exact_int": false, "compact": {}, "small": {}, "add": {}, "sub": {}, "mul": {}, "cmp": {}, "range": {}}

@@ -15,6 +15,9 @@
 #include "pycore_optimizer.h"     // _Py_uop_analyze_and_optimize()
 #include "pycore_pystate.h"       // _PyInterpreterState_GET()
 #include "pycore_tuple.h"         // _PyTuple_FromArraySteal
+#include "pycore_typeobject.h"
+#include "pycore_dict.h"
+#include "pycore_setobject.h"
 #include "pycore_unicodeobject.h" // _PyUnicode_FromASCII
 #include "pycore_uop_ids.h"
 #include "pycore_jit.h"
@@ -1644,6 +1647,457 @@ stack_allocate(_PyUOpInstruction *buffer, _PyUOpInstruction *output, int length)
     return (int)(write - output);
 }
 
+
+#define CAPTURE_SCHEMA_VERSION 2
+#define CAPTURE_MAX_ITEMS 16
+
+extern int _Py_uop_capture_active;
+extern int _Py_uop_capture_origin[UOP_MAX_TRACE_LENGTH];
+extern PyObject *_Py_uop_capture_input_const[UOP_MAX_TRACE_LENGTH];
+extern PyObject *_Py_uop_capture_input_const_code[UOP_MAX_TRACE_LENGTH];
+
+static void
+capture_json_string(FILE *out, const char *str)
+{
+    fputc('"', out);
+    for (const unsigned char *p = (const unsigned char *)str; *p; p++) {
+        switch (*p) {
+            case '"': fputs("\\\"", out); break;
+            case '\\': fputs("\\\\", out); break;
+            case '\n': fputs("\\n", out); break;
+            case '\r': fputs("\\r", out); break;
+            case '\t': fputs("\\t", out); break;
+            default:
+                if (*p < 0x20) {
+                    fprintf(out, "\\u%04x", *p);
+                }
+                else {
+                    fputc(*p, out);
+                }
+        }
+    }
+    fputc('"', out);
+}
+
+static void
+capture_ascii_or_placeholder(FILE *out, PyObject *str)
+{
+    if (str != NULL && PyUnicode_CheckExact(str) && PyUnicode_IS_ASCII(str)) {
+        capture_json_string(out, PyUnicode_AsUTF8(str));
+    }
+    else {
+        fputs("\"<non-ascii>\"", out);
+    }
+}
+
+static uint64_t
+capture_code_hash(PyCodeObject *code)
+{
+    uint64_t h = 14695981039346656037ULL;
+    int n = (int)Py_SIZE(code);
+    for (int i = 0; i < n;) {
+        _Py_CODEUNIT unit = _Py_GetBaseCodeUnit(code, i);
+        h = (h ^ unit.op.code) * 1099511628211ULL;
+        h = (h ^ unit.op.arg) * 1099511628211ULL;
+        i += 1 + _PyOpcode_Caches[unit.op.code];
+    }
+    return h;
+}
+
+static void
+capture_code_summary(FILE *out, PyCodeObject *code)
+{
+    fputs("{\"qualname\":", out);
+    capture_ascii_or_placeholder(out, code->co_qualname);
+    fprintf(out, ",\"addr\":\"0x%" PRIxPTR "\",\"code_start\":\"0x%" PRIxPTR "\",\"co_version\":%u,\"nlocalsplus\":%d,\"argcount\":%d,\"stacksize\":%d,\"framesize\":%d,\"flags\":%d,\"code_units\":%d,\"base_code_fnv1a64\":\"0x%" PRIx64 "\"}",
+            (uintptr_t)code, (uintptr_t)_PyCode_CODE(code), (unsigned int)code->co_version, code->co_nlocalsplus, code->co_argcount,
+            code->co_stacksize, code->co_framesize, code->co_flags, (int)Py_SIZE(code), capture_code_hash(code));
+}
+
+static void
+capture_object(FILE *out, PyObject *obj, int depth)
+{
+    if (obj == NULL) {
+        fputs("null", out);
+        return;
+    }
+    fputs("{\"type\":", out);
+    capture_json_string(out, Py_TYPE(obj)->tp_name);
+    fprintf(out, ",\"immortal\":%s,\"addr\":\"0x%" PRIxPTR "\"", _Py_IsImmortal(obj) ? "true" : "false", (uintptr_t)obj);
+    fprintf(out, ",\"type_addr\":\"0x%" PRIxPTR "\",\"type_version\":%u,\"type_immutable\":%s", (uintptr_t)Py_TYPE(obj),
+            Py_TYPE(obj)->tp_version_tag, (Py_TYPE(obj)->tp_flags & Py_TPFLAGS_IMMUTABLETYPE) ? "true" : "false");
+    {
+        PyInterpreterState *interp = _PyInterpreterState_GET();
+        const char *cached = obj == interp->callable_cache.len ? "len"
+            : obj == interp->callable_cache.isinstance ? "isinstance"
+            : obj == interp->callable_cache.list_append ? "list_append" : NULL;
+        if (cached != NULL) {
+            fprintf(out, ",\"callable_cache\":\"%s\"", cached);
+        }
+    }
+    if (PyLong_CheckExact(obj)) {
+        int overflow = 0;
+        long v = PyLong_AsLongAndOverflow(obj, &overflow);
+        if (overflow == 0) {
+            fprintf(out, ",\"int\":%ld,\"compact\":%s", v,
+                    _PyLong_IsCompact((PyLongObject *)obj) ? "true" : "false");
+        }
+        else {
+            fprintf(out, ",\"int_overflows_long\":%d", overflow);
+        }
+    }
+    else if (obj == Py_None) {
+        fputs(",\"value\":\"None\"", out);
+    }
+    else if (obj == Py_True) {
+        fputs(",\"value\":\"True\"", out);
+    }
+    else if (obj == Py_False) {
+        fputs(",\"value\":\"False\"", out);
+    }
+    else if (PyUnicode_CheckExact(obj)) {
+        fprintf(out, ",\"str_length\":%zd", PyUnicode_GET_LENGTH(obj));
+        if (PyUnicode_IS_ASCII(obj)) {
+            fputs(",\"str\":", out);
+            capture_json_string(out, PyUnicode_AsUTF8(obj));
+        }
+    }
+    else if (PyFloat_CheckExact(obj)) {
+        double d = PyFloat_AS_DOUBLE(obj);
+        fprintf(out, ",\"float\":\"%.17g\",\"float_hex\":\"%a\"", d, d);
+    }
+    else if (PyBytes_CheckExact(obj)) {
+        fprintf(out, ",\"bytes_length\":%zd", PyBytes_GET_SIZE(obj));
+    }
+    else if (PyTuple_CheckExact(obj)) {
+        Py_ssize_t n = PyTuple_GET_SIZE(obj);
+        fprintf(out, ",\"len\":%zd", n);
+        if (depth < 3) {
+            fputs(",\"items\":[", out);
+            for (Py_ssize_t k = 0; k < n && k < CAPTURE_MAX_ITEMS; k++) {
+                if (k > 0) {
+                    fputc(',', out);
+                }
+                capture_object(out, PyTuple_GET_ITEM(obj, k), depth + 1);
+            }
+            fputc(']', out);
+            if (n > CAPTURE_MAX_ITEMS) {
+                fputs(",\"items_truncated\":true", out);
+            }
+        }
+    }
+    else if (PyList_CheckExact(obj) || PyDict_CheckExact(obj) || PyAnySet_CheckExact(obj) || PyFrozenDict_CheckExact(obj)) {
+        Py_ssize_t n = PyObject_Size(obj);
+        fprintf(out, ",\"len\":%zd", n);
+        if (depth < 1 && (PyFrozenDict_CheckExact(obj) || PyFrozenSet_CheckExact(obj)) && n <= CAPTURE_MAX_ITEMS) {
+            fputs(",\"items\":[", out);
+            if (PyFrozenDict_CheckExact(obj)) {
+                Py_ssize_t pos = 0;
+                PyObject *key, *value;
+                int first = 1;
+                while (PyDict_Next(obj, &pos, &key, &value)) {
+                    fputs(first ? "{\"key\":" : ",{\"key\":", out);
+                    capture_object(out, key, depth + 1);
+                    fputs(",\"value\":", out);
+                    capture_object(out, value, depth + 1);
+                    fputc('}', out);
+                    first = 0;
+                }
+            }
+            else {
+                Py_ssize_t pos = 0;
+                PyObject *key;
+                Py_hash_t hash;
+                int first = 1;
+                while (_PySet_NextEntry(obj, &pos, &key, &hash)) {
+                    if (!first) {
+                        fputc(',', out);
+                    }
+                    capture_object(out, key, depth + 1);
+                    first = 0;
+                }
+            }
+            fputc(']', out);
+        }
+    }
+    else if (PyType_Check(obj)) {
+        PyTypeObject *tp = (PyTypeObject *)obj;
+        fputs(",\"type_name\":", out);
+        capture_json_string(out, tp->tp_name);
+        fprintf(out, ",\"version_tag\":%u,\"immutable\":%s", tp->tp_version_tag,
+                (tp->tp_flags & Py_TPFLAGS_IMMUTABLETYPE) ? "true" : "false");
+        const char *iter_kind = tp->_tp_iteritem != NULL ? "virtual"
+            : tp->tp_iter == PyObject_SelfIter ? "self"
+            : tp->tp_iter != NULL ? "trad" : "none";
+        fprintf(out, ",\"iter_kind\":\"%s\",\"iternext_inline\":%s,\"dict_subscript\":%s,\"dict_store_subscript\":%s,\"vectorcall\":%s",
+                iter_kind,
+                (tp->tp_iternext != NULL && !_PyType_HasSlotTpIternext(tp)) ? "true" : "false",
+                (tp->tp_as_mapping != NULL && tp->tp_as_mapping->mp_subscript == _PyDict_Subscript) ? "true" : "false",
+                (tp->tp_as_mapping != NULL && tp->tp_as_mapping->mp_ass_subscript == _PyDict_StoreSubscript) ? "true" : "false",
+                tp->tp_vectorcall != NULL ? "true" : "false");
+        if ((tp->tp_flags & Py_TPFLAGS_HEAPTYPE) && depth < 1) {
+            PyObject *init = ((PyHeapTypeObject *)tp)->_spec_cache.init;
+            if (init != NULL && PyFunction_Check(init)) {
+                fputs(",\"init\":", out);
+                capture_object(out, init, depth + 1);
+            }
+            PyObject *getitem = ((PyHeapTypeObject *)tp)->_spec_cache.getitem;
+            if (getitem != NULL && PyFunction_Check(getitem)) {
+                fputs(",\"getitem\":", out);
+                capture_object(out, getitem, depth + 1);
+                fprintf(out, ",\"getitem_version\":%u", ((PyHeapTypeObject *)tp)->_spec_cache.getitem_version);
+            }
+        }
+        fprintf(out, ",\"heap_type\":%s,\"generic_getattr\":%s", (tp->tp_flags & Py_TPFLAGS_HEAPTYPE) ? "true" : "false",
+                tp->tp_getattro == PyObject_GenericGetAttr ? "true" : "false");
+        if (tp->tp_mro != NULL && PyTuple_CheckExact(tp->tp_mro)) {
+            fputs(",\"mro\":[", out);
+            for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(tp->tp_mro); i++) {
+                fprintf(out, "%s\"%p\"", i ? "," : "", (void *)PyTuple_GET_ITEM(tp->tp_mro, i));
+            }
+            fputc(']', out);
+        }
+    }
+    else if (PyFunction_Check(obj)) {
+        PyFunctionObject *func = (PyFunctionObject *)obj;
+        fprintf(out, ",\"func_version\":%u,\"qualname\":", (unsigned int)func->func_version);
+        capture_ascii_or_placeholder(out, func->func_qualname);
+        fputs(",\"code\":", out);
+        if (func->func_code != NULL && PyCode_Check(func->func_code)) {
+            capture_code_summary(out, (PyCodeObject *)func->func_code);
+        }
+        else {
+            fputs("null", out);
+        }
+    }
+    else if (PyCode_Check(obj)) {
+        fputs(",\"code\":", out);
+        capture_code_summary(out, (PyCodeObject *)obj);
+    }
+    else if (PyMethod_Check(obj) && depth < 1) {
+        fputs(",\"im_func\":", out);
+        capture_object(out, PyMethod_GET_FUNCTION(obj), depth + 1);
+        fputs(",\"im_self\":", out);
+        capture_object(out, PyMethod_GET_SELF(obj), depth + 1);
+    }
+    else if (PyCFunction_CheckExact(obj)) {
+        fprintf(out, ",\"ml_meth\":\"0x%" PRIxPTR "\",\"ml_flags\":%d", (uintptr_t)PyCFunction_GET_FUNCTION(obj), PyCFunction_GET_FLAGS(obj));
+        if (((PyCFunctionObject *)obj)->m_ml != NULL && ((PyCFunctionObject *)obj)->m_ml->ml_name != NULL) {
+            fputs(",\"builtin_name\":", out);
+            capture_json_string(out, ((PyCFunctionObject *)obj)->m_ml->ml_name);
+        }
+    }
+    else if (Py_IS_TYPE(obj, &PyMethodDescr_Type)) {
+        PyMethodDescrObject *descr = (PyMethodDescrObject *)obj;
+        fprintf(out, ",\"ml_meth\":\"0x%" PRIxPTR "\",\"ml_flags\":%d,\"d_type\":", (uintptr_t)descr->d_method->ml_meth, descr->d_method->ml_flags);
+        capture_json_string(out, descr->d_common.d_type->tp_name);
+        fputs(",\"builtin_name\":", out);
+        capture_json_string(out, descr->d_method->ml_name);
+    }
+    fputc('}', out);
+}
+
+static int
+capture_operand0_is_object(int base)
+{
+    switch (base) {
+        case _GUARD_TYPE:
+        case _GUARD_TYPE_ITER:
+        case _LOAD_ATTR_CLASS:
+        case _LOAD_ATTR_METHOD_WITH_VALUES:
+        case _LOAD_ATTR_METHOD_NO_DICT:
+        case _LOAD_ATTR_NONDESCRIPTOR_WITH_VALUES:
+        case _LOAD_ATTR_NONDESCRIPTOR_NO_DICT:
+        case _LOAD_ATTR_METHOD_LAZY_DICT:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+static int
+capture_operand1_is_object(int base)
+{
+    switch (base) {
+        case _CHECK_FUNCTION_VERSION_INLINE:
+        case _LOAD_ATTR_PROPERTY_FRAME:
+        case _LOAD_ATTR_GETATTRIBUTE_OVERRIDDEN_FRAME:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+static void
+capture_uop(FILE *out, const _PyUOpInstruction *inst, int index, PyCodeObject *code,
+            int origin, PyObject *input_const, PyObject *input_const_code)
+{
+    int opcode = inst->opcode;
+    int base = opcode <= MAX_UOP_ID ? opcode : _PyUop_Uncached[opcode];
+    const char *name = _PyOpcode_uop_name[opcode];
+    fprintf(out, "{\"i\":%d,\"op\":", index);
+    capture_json_string(out, name != NULL ? name : "?");
+    fprintf(out, ",\"opcode\":%d,\"oparg\":%d,\"format\":%d", opcode, inst->oparg, inst->format);
+    if (inst->format == UOP_FORMAT_TARGET) {
+        fprintf(out, ",\"target\":%u", inst->target);
+    }
+    else {
+        fprintf(out, ",\"jump_target\":%u,\"error_target\":%u", inst->jump_target, inst->error_target);
+    }
+    fprintf(out, ",\"operand0\":\"0x%" PRIx64 "\",\"operand1\":\"0x%" PRIx64 "\"",
+            (uint64_t)inst->operand0, (uint64_t)inst->operand1);
+    if (origin >= 0) {
+        fprintf(out, ",\"origin\":%d", origin);
+    }
+    if (base == _SET_IP || base == _START_EXECUTOR) {
+        _Py_CODEUNIT *ptr = (_Py_CODEUNIT *)(uintptr_t)inst->operand0;
+        _Py_CODEUNIT *start = _PyCode_CODE(code);
+        if (ptr >= start && ptr < start + Py_SIZE(code)) {
+            fprintf(out, ",\"instr_index\":%d", (int)(ptr - start));
+        }
+        else {
+            fputs(",\"instr_index\":null", out);
+        }
+    }
+    else if (name != NULL && strstr(name, "LOAD_CONST_INLINE") != NULL) {
+        fputs(",\"constant\":", out);
+        capture_object(out, (PyObject *)(uintptr_t)inst->operand0, 0);
+    }
+    else if ((base == _LOAD_CONST || base == _LOAD_COMMON_CONSTANT || base == _LOAD_GLOBAL_MODULE || base == _LOAD_GLOBAL_BUILTINS || base == _LOAD_ATTR_MODULE || base == _LOAD_SPECIAL || base == _LOAD_SUPER_ATTR_METHOD) && input_const != NULL) {
+        fputs((base == _LOAD_CONST || base == _LOAD_COMMON_CONSTANT) ? ",\"constant\":" : (base == _LOAD_SPECIAL || base == _LOAD_SUPER_ATTR_METHOD) ? ",\"lookup\":" : ",\"global\":", out);
+        capture_object(out, input_const, 0);
+        if (input_const_code != NULL && PyCode_Check(input_const_code)) {
+            fputs(",\"constant_code\":", out);
+            capture_code_summary(out, (PyCodeObject *)input_const_code);
+        }
+        else if (input_const_code != NULL && PyType_Check(input_const_code)) {
+            fputs(",\"lookup_type\":", out);
+            capture_object(out, input_const_code, 0);
+        }
+    }
+    else if (_PyUop_Flags[base] & HAS_RECORDS_VALUE_FLAG) {
+        PyObject *obj = (PyObject *)(uintptr_t)inst->operand0;
+        fputs(",\"recorded_type\":", out);
+        if (obj == NULL) {
+            fputs("null", out);
+        }
+        else {
+            capture_json_string(out, Py_TYPE(obj)->tp_name);
+        }
+        fputs(",\"recorded\":", out);
+        capture_object(out, obj, 0);
+    }
+    else if (capture_operand0_is_object(base)) {
+        fputs(",\"operand0_object\":", out);
+        capture_object(out, (PyObject *)(uintptr_t)inst->operand0, 0);
+    }
+    else if (base == _BINARY_OP_EXTEND || base == _GUARD_BINARY_OP_EXTEND || base == _GUARD_BINARY_OP_EXTEND_LHS || base == _GUARD_BINARY_OP_EXTEND_RHS) {
+        _PyBinaryOpSpecializationDescr *d = (_PyBinaryOpSpecializationDescr *)(uintptr_t)inst->operand0;
+        if (d == NULL) {
+            fputs(",\"binop_descr\":null", out);
+        }
+        else {
+            fputs(",\"binop_descr\":{\"lhs_type\":", out);
+            capture_object(out, (PyObject *)d->lhs_type, 1);
+            fputs(",\"rhs_type\":", out);
+            capture_object(out, (PyObject *)d->rhs_type, 1);
+            fputs(",\"result_type\":", out);
+            capture_object(out, (PyObject *)d->result_type, 1);
+            fprintf(out, ",\"result_unique\":%s,\"has_guard\":%s}", d->result_unique ? "true" : "false", d->guard != NULL ? "true" : "false");
+        }
+    }
+    if (capture_operand1_is_object(base)) {
+        fputs(",\"operand1_object\":", out);
+        capture_object(out, (PyObject *)(uintptr_t)inst->operand1, 0);
+    }
+    fputc('}', out);
+}
+
+static _PyUOpInstruction *
+capture_snapshot(const _PyUOpInstruction *buffer, int length)
+{
+    const char *dir = Py_GETENV("PYTHON_UOP_CAPTURE");
+    if (dir == NULL || *dir == '\0') {
+        return NULL;
+    }
+    _PyUOpInstruction *copy = PyMem_RawMalloc((size_t)length * sizeof(_PyUOpInstruction));
+    if (copy == NULL) {
+        return NULL;
+    }
+    memcpy(copy, buffer, (size_t)length * sizeof(_PyUOpInstruction));
+    return copy;
+}
+
+static void
+capture_pair(_PyThreadStateImpl *tstate, const _PyUOpInstruction *input_before,
+             const _PyUOpInstruction *input_after, int input_length,
+             const _PyUOpInstruction *output, int result_length, bool noopt)
+{
+    const char *dir = Py_GETENV("PYTHON_UOP_CAPTURE");
+    if (dir == NULL || *dir == '\0') {
+        return;
+    }
+    char path[4096];
+    snprintf(path, sizeof(path), "%s/uops-%ld.jsonl", dir, (long)getpid());
+    FILE *out = fopen(path, "a");
+    if (out == NULL) {
+        return;
+    }
+    static unsigned long seq = 0;
+    _PyJitTracerInitialState *init = &tstate->jit_tracer_state->initial_state;
+    PyCodeObject *code = init->code;
+    fprintf(out, "{\"schema\":%d,\"python_version\":", CAPTURE_SCHEMA_VERSION);
+    capture_json_string(out, Py_GetVersion());
+    fprintf(out, ",\"pid\":%ld,\"seq\":%lu,\"code\":{\"qualname\":", (long)getpid(), seq++);
+    capture_ascii_or_placeholder(out, code->co_qualname);
+    fputs(",\"filename\":", out);
+    capture_ascii_or_placeholder(out, code->co_filename);
+    fprintf(out, ",\"firstlineno\":%d,\"code_units\":%d,\"nlocalsplus\":%d,\"stacksize\":%d,\"co_version\":%u,\"base_code_fnv1a64\":\"0x%" PRIx64 "\"}",
+            code->co_firstlineno, (int)Py_SIZE(code), code->co_nlocalsplus, code->co_stacksize,
+            (unsigned int)code->co_version, capture_code_hash(code));
+    fprintf(out, ",\"entry\":{\"ip0\":%d,\"stack_depth\":%d,\"chain_depth\":%d,\"from_side_exit\":%s}",
+            (int)(init->start_instr - _PyCode_CODE(code)), init->stack_depth, init->chain_depth,
+            init->exit != NULL ? "true" : "false");
+    fprintf(out, ",\"noopt\":%s,\"result_length\":%d,\"input_length\":%d", noopt ? "true" : "false", result_length, input_length);
+    fputs(",\"input\":[", out);
+    for (int i = 0; i < input_length; i++) {
+        if (i > 0) {
+            fputc(',', out);
+        }
+        capture_uop(out, &input_before[i], i, code, -1,
+                    noopt ? NULL : _Py_uop_capture_input_const[i],
+                    noopt ? NULL : _Py_uop_capture_input_const_code[i]);
+    }
+    fputs("],\"input_rewritten_in_place\":[", out);
+    bool first = true;
+    for (int i = 0; i < input_length; i++) {
+        if (input_before[i].opcode != input_after[i].opcode ||
+            input_before[i].oparg != input_after[i].oparg ||
+            input_before[i].operand0 != input_after[i].operand0) {
+            fprintf(out, "%s{\"i\":%d,\"op_after\":", first ? "" : ",", i);
+            capture_json_string(out, _PyOpcode_uop_name[input_after[i].opcode]);
+            fputc('}', out);
+            first = false;
+        }
+    }
+    fputs("],\"output\":", out);
+    if (output == NULL || result_length <= 0) {
+        fputs("null", out);
+    }
+    else {
+        fputc('[', out);
+        for (int i = 0; i < result_length; i++) {
+            if (i > 0) {
+                fputc(',', out);
+            }
+            capture_uop(out, &output[i], i, code, _Py_uop_capture_origin[i], NULL, NULL);
+        }
+        fputc(']', out);
+    }
+    fputs("}\n", out);
+    fclose(out);
+}
+
 static int
 uop_optimize(
     _PyInterpreterFrame *frame,
@@ -1667,16 +2121,35 @@ uop_optimize(
 
     _PyBloomFilter dependencies;
     _Py_BloomFilter_Init(&dependencies);
+    int input_length = length;
+    _PyUOpInstruction *snapshot = capture_snapshot(buffer, length);
+    _Py_uop_capture_active = snapshot != NULL;
+    if (snapshot != NULL) {
+        for (int i = 0; i < input_length; i++) {
+            _Py_uop_capture_input_const[i] = NULL;
+            _Py_uop_capture_input_const_code[i] = NULL;
+        }
+    }
     if (!is_noopt) {
         _PyUOpInstruction *output = &_tstate->jit_tracer_state->uop_array[UOP_MAX_TRACE_LENGTH];
         length = _Py_uop_analyze_and_optimize(
             _tstate, buffer, length, curr_stackentries,
             output, &dependencies);
+        _Py_uop_capture_active = 0;
 
+        if (snapshot != NULL) {
+            capture_pair(_tstate, snapshot, buffer, input_length, output, length, false);
+            PyMem_RawFree(snapshot);
+        }
         if (length <= 0) {
             return length;
         }
         buffer = output;
+    }
+    else if (snapshot != NULL) {
+        _Py_uop_capture_active = 0;
+        capture_pair(_tstate, snapshot, buffer, input_length, NULL, 0, true);
+        PyMem_RawFree(snapshot);
     }
     assert(length < UOP_MAX_TRACE_LENGTH);
     assert(length >= 1);

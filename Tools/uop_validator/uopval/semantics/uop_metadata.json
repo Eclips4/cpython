@@ -1,0 +1,11284 @@
+{
+ "commit": "f2eaf174b2505be1b3dfbe817db243adf7fd5d6b",
+ "source": "Python/bytecodes.c",
+ "uops": {
+  "_ALLOCATE_OBJECT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BINARY_OP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "lhs",
+    "rhs"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "lhs",
+     ""
+    ],
+    [
+     "rhs",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "lhs",
+    "r": "rhs"
+   }
+  },
+  "_BINARY_OP_ADD_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_ADD_FLOAT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "r": "right",
+    "res": "left"
+   }
+  },
+  "_BINARY_OP_ADD_FLOAT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "res": "right"
+   }
+  },
+  "_BINARY_OP_ADD_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_ADD_INT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_ADD_INT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_ADD_UNICODE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_EXTEND": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "left",
+    "right"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_INPLACE_ADD_UNICODE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "left"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BINARY_OP_MULTIPLY_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_MULTIPLY_FLOAT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "r": "right",
+    "res": "left"
+   }
+  },
+  "_BINARY_OP_MULTIPLY_FLOAT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "res": "right"
+   }
+  },
+  "_BINARY_OP_MULTIPLY_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_MULTIPLY_INT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_MULTIPLY_INT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_SUBSCR_CHECK_FUNC": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "container",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "container",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "getitem",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BINARY_OP_SUBSCR_DICT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "dict_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "ds",
+     ""
+    ],
+    [
+     "ss",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "ds": "dict_st",
+    "ss": "sub_st"
+   }
+  },
+  "_BINARY_OP_SUBSCR_DICT_KNOWN_HASH": {
+   "caches": [
+    [
+     "hash",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "dict_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "ds",
+     ""
+    ],
+    [
+     "ss",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "ds": "dict_st",
+    "ss": "sub_st"
+   }
+  },
+  "_BINARY_OP_SUBSCR_INIT_CALL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "container",
+     ""
+    ],
+    [
+     "sub",
+     ""
+    ],
+    [
+     "getitem",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BINARY_OP_SUBSCR_LIST_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "list_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "ls",
+     ""
+    ],
+    [
+     "ss",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "ls": "list_st",
+    "ss": "sub_st"
+   }
+  },
+  "_BINARY_OP_SUBSCR_LIST_SLICE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "list_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "ls",
+     ""
+    ],
+    [
+     "ss",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "ls": "list_st",
+    "ss": "sub_st"
+   }
+  },
+  "_BINARY_OP_SUBSCR_STR_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "str_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ],
+    [
+     "i",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "i": "sub_st",
+    "s": "str_st"
+   }
+  },
+  "_BINARY_OP_SUBSCR_TUPLE_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "tuple_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "ts",
+     ""
+    ],
+    [
+     "ss",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "ss": "sub_st",
+    "ts": "tuple_st"
+   }
+  },
+  "_BINARY_OP_SUBSCR_USTR_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "str_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ],
+    [
+     "i",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "i": "sub_st",
+    "s": "str_st"
+   }
+  },
+  "_BINARY_OP_SUBTRACT_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_SUBTRACT_FLOAT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "r": "right",
+    "res": "left"
+   }
+  },
+  "_BINARY_OP_SUBTRACT_FLOAT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "res": "right"
+   }
+  },
+  "_BINARY_OP_SUBTRACT_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_SUBTRACT_INT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_SUBTRACT_INT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_TRUEDIV_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_BINARY_OP_TRUEDIV_FLOAT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "r": "right",
+    "res": "left"
+   }
+  },
+  "_BINARY_OP_TRUEDIV_FLOAT_INPLACE_RIGHT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "res": "right"
+   }
+  },
+  "_BINARY_SLICE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "container",
+     ""
+    ],
+    [
+     "start",
+     ""
+    ],
+    [
+     "stop",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_INTERPOLATION": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "format"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "str",
+     ""
+    ],
+    [
+     "format",
+     "oparg & 1"
+    ]
+   ],
+   "outputs": [
+    [
+     "interpolation",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_LIST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "values",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "list",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_MAP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "values"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "values",
+     "oparg*2"
+    ]
+   ],
+   "outputs": [
+    [
+     "map",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_SET": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "values",
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "values",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "set",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_SLICE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "slice",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_STRING": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "pieces"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "pieces",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "str",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_TEMPLATE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "strings",
+     ""
+    ],
+    [
+     "interpolations",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "template",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_BUILD_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG"
+   ],
+   "inputs": [
+    [
+     "values",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "tup",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_BUILTIN_CLASS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_BUILTIN_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_BUILTIN_FAST_WITH_KEYWORDS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_BUILTIN_O": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "c": "callable"
+   }
+  },
+  "_CALL_FUNCTION_EX_NON_PY_GENERAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "null"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "func_st",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "callargs_st",
+     ""
+    ],
+    [
+     "kwargs_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "result",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_INTRINSIC_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_CALL_INTRINSIC_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value2_st",
+     ""
+    ],
+    [
+     "value1_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "vs1",
+     ""
+    ],
+    [
+     "vs2",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "vs1": "value1_st",
+    "vs2": "value2_st"
+   }
+  },
+  "_CALL_ISINSTANCE": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "null"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "instance",
+     ""
+    ],
+    [
+     "cls",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_KW_NON_PY": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "kwnames",
+    "args",
+    "self_or_null",
+    "callable"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ],
+    [
+     "kwnames",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_LEN": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "arg",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "a",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "a": "arg",
+    "c": "callable"
+   }
+  },
+  "_CALL_LIST_APPEND": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "callable",
+    "self"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_DEOPT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "arg",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "none",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "c": "callable",
+    "s": "self"
+   }
+  },
+  "_CALL_METHOD_DESCRIPTOR_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_METHOD_DESCRIPTOR_FAST_INLINE": {
+   "caches": [
+    [
+     "cfunc",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_st",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_st",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_METHOD_DESCRIPTOR_FAST_WITH_KEYWORDS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_METHOD_DESCRIPTOR_FAST_WITH_KEYWORDS_INLINE": {
+   "caches": [
+    [
+     "cfunc",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_st",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_st",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_METHOD_DESCRIPTOR_NOARGS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "c": "callable"
+   }
+  },
+  "_CALL_METHOD_DESCRIPTOR_NOARGS_INLINE": {
+   "caches": [
+    [
+     "cfunc",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "c": "callable"
+   }
+  },
+  "_CALL_METHOD_DESCRIPTOR_O": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ],
+    [
+     "a",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "c": "callable"
+   }
+  },
+  "_CALL_METHOD_DESCRIPTOR_O_INLINE": {
+   "caches": [
+    [
+     "cfunc",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "c",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ],
+    [
+     "a",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "c": "callable"
+   }
+  },
+  "_CALL_NON_PY_GENERAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "args",
+    "self_or_null",
+    "callable"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CALL_STR_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "arg",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "a",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "a": "arg"
+   }
+  },
+  "_CALL_TUPLE_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "arg",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "a",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "a": "arg"
+   }
+  },
+  "_CALL_TYPE_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "arg",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "a",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "a": "arg"
+   }
+  },
+  "_CHECK_ATTR_CLASS": {
+   "caches": [
+    [
+     "type_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_ATTR_METHOD_LAZY_DICT": {
+   "caches": [
+    [
+     "dictoffset",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_CALL_BOUND_METHOD_EXACT_ARGS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_EG_MATCH": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "exc_value_st",
+     ""
+    ],
+    [
+     "match_type_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "rest",
+     ""
+    ],
+    [
+     "match",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_EXC_MATCH": {
+   "caches": [],
+   "constant_outputs": {
+    "b": "bool"
+   },
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "b",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_FUNCTION_EXACT_ARGS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_FUNCTION_VERSION": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_FUNCTION_VERSION_INLINE": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ],
+    [
+     "callable_o",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_FUNCTION_VERSION_KW": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_IS_NOT_PY_CALLABLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_IS_NOT_PY_CALLABLE_EX": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "func_st",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "func_st",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_IS_NOT_PY_CALLABLE_KW": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_IS_PY_CALLABLE_EX": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "func_st",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "func_st",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_MANAGED_OBJECT_HAS_VALUES": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_METHOD_VERSION": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_METHOD_VERSION_KW": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_OBJECT": {
+   "caches": [
+    [
+     "type_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_PEP_523": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_PERIODIC": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EVAL_BREAK_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_PERIODIC_IF_NOT_YIELD_FROM": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EVAL_BREAK_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_RECURSION_LIMIT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_RECURSION_REMAINING": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_STACK_SPACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_CHECK_STACK_SPACE_OPERAND": {
+   "caches": [
+    [
+     "framesize",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CHECK_VALIDITY": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_COLD_DYNAMIC_EXIT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_COLD_EXIT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_COMPARE_OP": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_COMPARE_OP_FLOAT": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "left",
+    "right"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_COMPARE_OP_INT": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "left",
+    "right"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_COMPARE_OP_STR": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "left",
+    "right"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_CONTAINS_OP": {
+   "caches": [],
+   "constant_outputs": {
+    "b": "bool"
+   },
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "b",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_CONTAINS_OP_DICT": {
+   "caches": [],
+   "constant_outputs": {
+    "b": "bool"
+   },
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "b",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_CONTAINS_OP_SET": {
+   "caches": [],
+   "constant_outputs": {
+    "b": "bool"
+   },
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "b",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_CONVERT_VALUE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "result",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_COPY": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_COPY_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_COPY_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused_0",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused_0",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_COPY_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused_0",
+     ""
+    ],
+    [
+     "unused_1",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused_0",
+     ""
+    ],
+    [
+     "unused_1",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_COPY_FREE_VARS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_CREATE_INIT_FRAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "init",
+    "self",
+    "args"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [
+    [
+     "init",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "init_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_DELETE_DEREF": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_FREE_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_DELETE_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_LOCAL_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_DELETE_SUBSCR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "container",
+     ""
+    ],
+    [
+     "sub",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_DEOPT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_DICT_MERGE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "update"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "dict",
+     ""
+    ],
+    [
+     "unused",
+     "oparg - 1"
+    ],
+    [
+     "update",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "dict",
+     ""
+    ],
+    [
+     "unused",
+     "oparg - 1"
+    ],
+    [
+     "u",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "u": "update"
+   }
+  },
+  "_DICT_UPDATE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "update"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "dict",
+     ""
+    ],
+    [
+     "unused",
+     "oparg - 1"
+    ],
+    [
+     "update",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "dict",
+     ""
+    ],
+    [
+     "unused",
+     "oparg - 1"
+    ],
+    [
+     "upd",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "upd": "update"
+   }
+  },
+  "_DYNAMIC_EXIT": {
+   "caches": [
+    [
+     "exit_p",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_END_FOR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG",
+    "HAS_NO_SAVE_IP_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_END_SEND": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value",
+    "index_or_null"
+   ],
+   "flags": [
+    "HAS_ESCAPES_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "receiver",
+     ""
+    ],
+    [
+     "index_or_null",
+     ""
+    ],
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "val",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "val": "value"
+   }
+  },
+  "_ERROR_POP_N": {
+   "caches": [
+    [
+     "target",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_EXIT_INIT_CHECK": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "should_be_none"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "should_be_none",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_EXIT_TRACE": {
+   "caches": [
+    [
+     "exit_p",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_EXPAND_METHOD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_EXPAND_METHOD_KW": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_FATAL_ERROR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_FORMAT_SIMPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "res": "value"
+   }
+  },
+  "_FORMAT_WITH_SPEC": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "fmt_spec",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_FOR_ITER_GEN_FRAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "gen_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_FOR_ITER_TIER_TWO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_FOR_ITER_VIRTUAL_TIER_TWO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GET_AITER": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "obj",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GET_ANEXT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "aiter",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "aiter",
+     ""
+    ],
+    [
+     "awaitable",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GET_AWAITABLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GET_ITER": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "iterable"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "index_or_null",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GET_ITER_TRAD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "index_or_null",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GET_LEN": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "obj",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "obj",
+     ""
+    ],
+    [
+     "len",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_3OS_ASYNC_GEN_ASEND": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_BINARY_OP_EXTEND": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_BINARY_OP_EXTEND_LHS": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_BINARY_OP_EXTEND_RHS": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_BINARY_OP_SUBSCR_TUPLE_INT_BOUNDS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tuple_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tuple_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_SET_POP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_SET_POP_4": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_SET_POP_5": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_SET_POP_6": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_SET_POP_7": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_UNSET_POP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_UNSET_POP_4": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_UNSET_POP_5": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_UNSET_POP_6": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_BIT_IS_UNSET_POP_7": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_BUILTIN_CLASS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_BUILTIN_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_BUILTIN_FAST_WITH_KEYWORDS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_BUILTIN_O": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_ISINSTANCE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_LEN": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_LIST_APPEND": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_METHOD_DESCRIPTOR_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_METHOD_DESCRIPTOR_FAST_WITH_KEYWORDS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_METHOD_DESCRIPTOR_NOARGS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_METHOD_DESCRIPTOR_O": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_STR_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_TUPLE_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CALLABLE_TYPE_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_CODE_VERSION_RETURN_GENERATOR": {
+   "caches": [
+    [
+     "version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_CODE_VERSION_RETURN_VALUE": {
+   "caches": [
+    [
+     "version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_CODE_VERSION_YIELD_VALUE": {
+   "caches": [
+    [
+     "version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_CODE_VERSION__PUSH_FRAME": {
+   "caches": [
+    [
+     "version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_DORV_NO_DICT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_GLOBALS_VERSION": {
+   "caches": [
+    [
+     "version",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IP_RETURN_GENERATOR": {
+   "caches": [
+    [
+     "ip",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IP_RETURN_VALUE": {
+   "caches": [
+    [
+     "ip",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IP_YIELD_VALUE": {
+   "caches": [
+    [
+     "ip",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IP__PUSH_FRAME": {
+   "caches": [
+    [
+     "ip",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IS_FALSE_POP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IS_NONE_POP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "val"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "val",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IS_NOT_NONE_POP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "val",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_IS_TRUE_POP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "flag"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "flag",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_GUARD_ITERATOR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_ITER_VIRTUAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_LOAD_SUPER_ATTR_METHOD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "global_super_st",
+     ""
+    ],
+    [
+     "class_st",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "global_super_st",
+     ""
+    ],
+    [
+     "class_st",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_COMPACT_ASCII": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_DICT_STORE_SUBSCRIPT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [
+    [
+     "unused",
+     ""
+    ],
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "unused",
+     ""
+    ],
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_DICT_SUBSCRIPT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_ITER_VIRTUAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_LIST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_NOT_NULL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_NULL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_OVERFLOWED": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_TYPE_VERSION": {
+   "caches": [
+    [
+     "type_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOS_UNICODE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOT_EXHAUSTED_LIST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOT_EXHAUSTED_RANGE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_NOT_EXHAUSTED_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_THIRD_NULL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "null",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_ANY_DICT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_ANY_SET": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_DICT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_EXACT_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_FROZENDICT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_FROZENSET": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_IS_NONE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "val",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "val",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_LIST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_NOT_NULL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_OVERFLOWED": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_SET": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_SLICE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TOS_UNICODE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TYPE": {
+   "caches": [
+    [
+     "type",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TYPE_ITER": {
+   "caches": [
+    [
+     "expected_type",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TYPE_VERSION": {
+   "caches": [
+    [
+     "type_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_GUARD_TYPE_VERSION_LOCKED": {
+   "caches": [
+    [
+     "type_version",
+     2
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_HANDLE_PENDING_AND_DEOPT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_IMPORT_FROM": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "from",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "from",
+     ""
+    ],
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_IMPORT_NAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "level",
+     ""
+    ],
+    [
+     "fromlist",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_BOUND_METHOD_EXACT_ARGS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_PY_EXACT_ARGS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_PY_EXACT_ARGS_0": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_PY_EXACT_ARGS_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_PY_EXACT_ARGS_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_PY_EXACT_ARGS_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INIT_CALL_PY_EXACT_ARGS_4": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_INSERT_NULL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "self"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "self",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "method_and_self",
+     "2"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_IS_NONE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "b",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_IS_OP": {
+   "caches": [],
+   "constant_outputs": {
+    "b": "bool"
+   },
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "left",
+     ""
+    ],
+    [
+     "right",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "b",
+     ""
+    ],
+    [
+     "l",
+     ""
+    ],
+    [
+     "r",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "l": "left",
+    "r": "right"
+   }
+  },
+  "_ITER_CHECK_LIST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_ITER_CHECK_RANGE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_ITER_CHECK_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_ITER_NEXT_INLINE": {
+   "caches": [
+    [
+     "iternext_fn",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_ITER_NEXT_LIST_TIER_TWO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_ITER_NEXT_RANGE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_ITER_NEXT_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_JUMP_TO_TOP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_LIST_APPEND": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG"
+   ],
+   "inputs": [
+    [
+     "list",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "list",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LIST_EXTEND": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "iterable_st"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "list_st",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "iterable_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "list_st",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "i",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "i": "iterable_st"
+   }
+  },
+  "_LOAD_ATTR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "self_or_null",
+     "oparg&1"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_ATTR_CLASS": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_ATTR_GETATTRIBUTE_OVERRIDDEN_FRAME": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ],
+    [
+     "getattribute",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_ATTR_INSTANCE_VALUE": {
+   "caches": [
+    [
+     "offset",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_LOAD_ATTR_METHOD_LAZY_DICT": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "self": "owner"
+   }
+  },
+  "_LOAD_ATTR_METHOD_NO_DICT": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "self": "owner"
+   }
+  },
+  "_LOAD_ATTR_METHOD_WITH_VALUES": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "self": "owner"
+   }
+  },
+  "_LOAD_ATTR_MODULE": {
+   "caches": [
+    [
+     "dict_version",
+     2
+    ],
+    [
+     "index",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_LOAD_ATTR_NONDESCRIPTOR_NO_DICT": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_ATTR_NONDESCRIPTOR_WITH_VALUES": {
+   "caches": [
+    [
+     "descr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_ATTR_PROPERTY_FRAME": {
+   "caches": [
+    [
+     "func_version",
+     2
+    ],
+    [
+     "fget",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_ATTR_SLOT": {
+   "caches": [
+    [
+     "index",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_LOAD_ATTR_WITH_HINT": {
+   "caches": [
+    [
+     "hint",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_LOAD_BUILD_CLASS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "bc",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_COMMON_CONSTANT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_CONST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_CONST_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_CONST_INLINE": {
+   "caches": [
+    [
+     "ptr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_CONST_INLINE_BORROW": {
+   "caches": [
+    [
+     "ptr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_DEREF": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_FREE_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_0": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_4": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_5": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_6": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_7": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_AND_CLEAR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_0": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_4": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_5": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_6": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_BORROW_7": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_LOCAL_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FAST_CHECK": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_LOCAL_FLAG",
+    "HAS_ERROR_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_FROM_DICT_OR_DEREF": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_FREE_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "class_dict_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_GLOBAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "res",
+     "1"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_GLOBAL_BUILTINS": {
+   "caches": [
+    [
+     "version",
+     1
+    ],
+    [
+     "index",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_GLOBAL_MODULE": {
+   "caches": [
+    [
+     "version",
+     1
+    ],
+    [
+     "unused",
+     1
+    ],
+    [
+     "index",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_LOCALS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "locals",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_NAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SMALL_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SMALL_INT_0": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SMALL_INT_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SMALL_INT_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SMALL_INT_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SPECIAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "method_and_self",
+     "2"
+    ]
+   ],
+   "outputs": [
+    [
+     "method_and_self",
+     "2"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SUPER_ATTR_ATTR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "global_super_st",
+     ""
+    ],
+    [
+     "class_st",
+     ""
+    ],
+    [
+     "self_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr_st",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_LOAD_SUPER_ATTR_METHOD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "self_st"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "global_super_st",
+     ""
+    ],
+    [
+     "class_st",
+     ""
+    ],
+    [
+     "self_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attr",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "self_or_null": "self_st"
+   }
+  },
+  "_LOCK_OBJECT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MAKE_CALLARGS_A_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "callargs",
+     ""
+    ],
+    [
+     "kwargs",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "callargs",
+     ""
+    ],
+    [
+     "kwargs",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MAKE_CELL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_FREE_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_MAKE_FUNCTION": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "codeobj_st"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "codeobj_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "co",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "co": "codeobj_st"
+   }
+  },
+  "_MAKE_HEAP_SAFE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MAKE_WARM": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_MAP_ADD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "dict_st",
+     ""
+    ],
+    [
+     "unused",
+     "oparg - 1"
+    ],
+    [
+     "key",
+     ""
+    ],
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "dict_st",
+     ""
+    ],
+    [
+     "unused",
+     "oparg - 1"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MATCH_CLASS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "subject",
+     ""
+    ],
+    [
+     "type",
+     ""
+    ],
+    [
+     "names",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "attrs",
+     ""
+    ],
+    [
+     "s",
+     ""
+    ],
+    [
+     "tp",
+     ""
+    ],
+    [
+     "n",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "n": "names",
+    "s": "subject",
+    "tp": "type"
+   }
+  },
+  "_MATCH_KEYS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "subject",
+     ""
+    ],
+    [
+     "keys",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "subject",
+     ""
+    ],
+    [
+     "keys",
+     ""
+    ],
+    [
+     "values_or_none",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MATCH_MAPPING": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "subject",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "subject",
+     ""
+    ],
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MATCH_SEQUENCE": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "subject",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "subject",
+     ""
+    ],
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MAYBE_EXPAND_METHOD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_MAYBE_EXPAND_METHOD_KW": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "unused",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_NOP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_EXCEPT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "exc_value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_ITER": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "index_or_null"
+   ],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "index_or_null",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_TOP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ESCAPES_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_TOP_FLOAT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_TOP_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_TOP_NOP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_TOP_OPARG": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "args"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_POP_TOP_UNICODE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_PUSH_EXC_INFO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "exc"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "exc",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "prev_exc",
+     ""
+    ],
+    [
+     "new_exc",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "new_exc": "exc"
+   }
+  },
+  "_PUSH_FRAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "new_frame"
+   ],
+   "flags": [
+    "HAS_SYNC_SP_FLAG",
+    "HAS_NEEDS_GUARD_IP_FLAG"
+   ],
+   "inputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_PUSH_NULL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_PUSH_NULL_CONDITIONAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "null",
+     "oparg & 1"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_PUSH_TAGGED_ZERO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [
+    [
+     "zero",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_PY_FRAME_EX": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [
+    [
+     "func_st",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "callargs_st",
+     ""
+    ],
+    [
+     "kwargs_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "ex_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_PY_FRAME_GENERAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_PY_FRAME_KW": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "args",
+    "self_or_null",
+    "callable"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self_or_null",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ],
+    [
+     "kwnames",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "new_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_3OS_GEN_FUNC": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "gen",
+     ""
+    ],
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "gen",
+     ""
+    ],
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_4OS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "_3os",
+     ""
+    ],
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "_3os",
+     ""
+    ],
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_BOUND_METHOD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "callable",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_CALLABLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "outputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_CALLABLE_KW": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ],
+    [
+     "kwnames",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "func",
+     ""
+    ],
+    [
+     "self",
+     ""
+    ],
+    [
+     "args",
+     "oparg"
+    ],
+    [
+     "kwnames",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_CODE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_RECORD_NOS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_NOS_GEN_FUNC": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_NOS_TYPE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "nos",
+     ""
+    ],
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_TOS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RECORD_TOS_TYPE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_RECORDS_VALUE_FLAG"
+   ],
+   "inputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "tos",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_REPLACE_WITH_TRUE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_RESUME_CHECK": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_RETURN_GENERATOR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG",
+    "HAS_NEEDS_GUARD_IP_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RETURN_VALUE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "retval"
+   ],
+   "flags": [
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG",
+    "HAS_NEEDS_GUARD_IP_FLAG"
+   ],
+   "inputs": [
+    [
+     "retval",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_RROT_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "middle",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "middle",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "middle": "bottom",
+    "top": "middle"
+   }
+  },
+  "_SAVE_RETURN_OFFSET": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_SEND_ASYNC_GEN_TIER_TWO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "iter",
+    "null_in"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_in",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "asend",
+     ""
+    ],
+    [
+     "null_out",
+     ""
+    ],
+    [
+     "retval",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "asend": "iter",
+    "null_out": "null_in"
+   }
+  },
+  "_SEND_GEN_FRAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "v"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "receiver",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "receiver",
+     ""
+    ],
+    [
+     "null",
+     ""
+    ],
+    [
+     "gen_frame",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SEND_VIRTUAL_TIER_TWO": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "none",
+    "none"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG"
+   ],
+   "inputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "none",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "iter",
+     ""
+    ],
+    [
+     "null_or_index",
+     ""
+    ],
+    [
+     "next",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "next": "none"
+   }
+  },
+  "_SETUP_ANNOTATIONS": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_SET_ADD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "set",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "set",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SET_FUNCTION_ATTRIBUTE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "func_in"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "attr_st",
+     ""
+    ],
+    [
+     "func_in",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "func_out",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "func_out": "func_in"
+   }
+  },
+  "_SET_IP": {
+   "caches": [
+    [
+     "instr_ptr",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_SET_UPDATE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "iterable"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "set",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "iterable",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "set",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-1"
+    ],
+    [
+     "i",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "i": "iterable"
+   }
+  },
+  "_SPILL_OR_RELOAD": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_START_EXECUTOR": {
+   "caches": [
+    [
+     "executor",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_DEOPT_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_ATTR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "v",
+     ""
+    ],
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_ATTR_INSTANCE_VALUE": {
+   "caches": [
+    [
+     "offset",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_STORE_ATTR_SLOT": {
+   "caches": [
+    [
+     "index",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_DEOPT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_STORE_ATTR_WITH_HINT": {
+   "caches": [
+    [
+     "hint",
+     1
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "owner"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_DEOPT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "owner",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "o",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "o": "owner"
+   }
+  },
+  "_STORE_DEREF": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_FREE_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_GLOBAL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "v"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_NAME": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "v"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_NAME_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "v",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_SLICE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "v",
+     ""
+    ],
+    [
+     "container",
+     ""
+    ],
+    [
+     "start",
+     ""
+    ],
+    [
+     "stop",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_SUBSCR": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "v",
+     ""
+    ],
+    [
+     "container",
+     ""
+    ],
+    [
+     "sub",
+     ""
+    ]
+   ],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_STORE_SUBSCR_DICT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "dict_st"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "dict_st",
+     ""
+    ],
+    [
+     "sub",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "st",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "st": "dict_st"
+   }
+  },
+  "_STORE_SUBSCR_DICT_KNOWN_HASH": {
+   "caches": [
+    [
+     "hash",
+     4
+    ]
+   ],
+   "constant_outputs": {},
+   "dead": [
+    "dict_st"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "dict_st",
+     ""
+    ],
+    [
+     "sub",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "st",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "st": "dict_st"
+   }
+  },
+  "_STORE_SUBSCR_LIST_INT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [
+    "HAS_DEOPT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ],
+    [
+     "list_st",
+     ""
+    ],
+    [
+     "sub_st",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "ls",
+     ""
+    ],
+    [
+     "ss",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "ls": "list_st",
+    "ss": "sub_st"
+   }
+  },
+  "_SWAP": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-2"
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused",
+     "oparg-2"
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "bottom": "top"
+   }
+  },
+  "_SWAP_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "bottom": "top"
+   }
+  },
+  "_SWAP_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PURE_FLAG"
+   ],
+   "inputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused_0",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "bottom",
+     ""
+    ],
+    [
+     "unused_0",
+     ""
+    ],
+    [
+     "top",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "bottom": "top"
+   }
+  },
+  "_SWAP_FAST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_0": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_1": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_2": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_3": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_4": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_5": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_6": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_SWAP_FAST_7": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_LOCAL_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "trash",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_TIER2_RESUME_CHECK": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_PERIODIC_FLAG"
+   ],
+   "inputs": [],
+   "outputs": [],
+   "passthrough": {}
+  },
+  "_TO_BOOL": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_TO_BOOL_BOOL": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_TO_BOOL_INT": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "value"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_TO_BOOL_LIST": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "value"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_TO_BOOL_NONE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_EXIT_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_TO_BOOL_STR": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "value"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_UNARY_INVERT": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_UNARY_NEGATIVE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "value"
+   ],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ERROR_NO_POP_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "v": "value"
+   }
+  },
+  "_UNARY_NEGATIVE_FLOAT_INPLACE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "*"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ],
+    [
+     "v",
+     ""
+    ]
+   ],
+   "passthrough": {
+    "res": "value"
+   }
+  },
+  "_UNARY_NOT": {
+   "caches": [],
+   "constant_outputs": {
+    "res": "bool"
+   },
+   "dead": [
+    "value"
+   ],
+   "flags": [],
+   "inputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_EX": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "unused",
+     "oparg & 0xFF"
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "unused",
+     "oparg >> 8"
+    ],
+    [
+     "top",
+     "0"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "unused",
+     "oparg"
+    ],
+    [
+     "top",
+     "0"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE_LIST": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_DEOPT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "values",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "values",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE_TWO_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_EXIT_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "val1",
+     ""
+    ],
+    [
+     "val0",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE_UNIQUE_THREE_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "val2",
+     ""
+    ],
+    [
+     "val1",
+     ""
+    ],
+    [
+     "val0",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE_UNIQUE_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ARG_FLAG"
+   ],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "values",
+     "oparg"
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_UNPACK_SEQUENCE_UNIQUE_TWO_TUPLE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [],
+   "inputs": [
+    [
+     "seq",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "val1",
+     ""
+    ],
+    [
+     "val0",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_WITH_EXCEPT_START": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [],
+   "flags": [
+    "HAS_ERROR_FLAG",
+    "HAS_ESCAPES_FLAG"
+   ],
+   "inputs": [
+    [
+     "exit_func",
+     ""
+    ],
+    [
+     "exit_self",
+     ""
+    ],
+    [
+     "lasti",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "val",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "exit_func",
+     ""
+    ],
+    [
+     "exit_self",
+     ""
+    ],
+    [
+     "lasti",
+     ""
+    ],
+    [
+     "unused",
+     ""
+    ],
+    [
+     "val",
+     ""
+    ],
+    [
+     "res",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  },
+  "_YIELD_VALUE": {
+   "caches": [],
+   "constant_outputs": {},
+   "dead": [
+    "retval"
+   ],
+   "flags": [
+    "HAS_ARG_FLAG",
+    "HAS_ESCAPES_FLAG",
+    "HAS_SYNC_SP_FLAG",
+    "HAS_NEEDS_GUARD_IP_FLAG"
+   ],
+   "inputs": [
+    [
+     "retval",
+     ""
+    ]
+   ],
+   "outputs": [
+    [
+     "value",
+     ""
+    ]
+   ],
+   "passthrough": {}
+  }
+ }
+}
