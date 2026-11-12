@@ -1,7 +1,16 @@
 from ..checking.explain import explain
 from ..checking.proof import ProofStatus
 from ..checking.refine import Verdict
-from ..domain.trace import Unit
+from ..domain.trace import Unit, Uop
+
+
+def uop_text(uop: Uop) -> str:
+    operands = "".join(
+        f", {name}=0x{value:x}"
+        for name, value in (("operand0", uop.operand0), ("operand1", uop.operand1))
+        if value
+    )
+    return f"{uop.op}({uop.oparg}, target={uop.target}{operands})"
 
 
 def unit_columns(label: str, r: Unit) -> str:

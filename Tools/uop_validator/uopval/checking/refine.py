@@ -9,7 +9,7 @@ import z3
 from ..alignment.classify import Admitted, Unsupported, classify
 from ..alignment.families import F2, Family, is_open
 from ..domain.build import IntConstants
-from ..domain.trace import Unit, Uop
+from ..domain.trace import Unit, Uop, same_instruction
 from ..semantics.execution import execute
 from ..semantics.frame_annotation import annotate_frames, carry_annotations
 from ..semantics.step import Step, UnsupportedUop
@@ -84,19 +84,10 @@ def aligned_steps(
 
 
 def rewritten_positions(unit: Admitted) -> set[int]:
-    def same(a: Uop, b: Uop) -> bool:
-        return (a.op, a.oparg, a.operand0, a.operand1, a.target) == (
-            b.op,
-            b.oparg,
-            b.operand0,
-            b.operand1,
-            b.target,
-        )
-
     return {
         i
         for i, (a, segment) in enumerate(unit.pairs)
-        if len(segment) != 1 or not same(a, segment[0])
+        if len(segment) != 1 or not same_instruction(a, segment[0])
     }
 
 

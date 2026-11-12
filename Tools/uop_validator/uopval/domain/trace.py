@@ -109,6 +109,16 @@ class Uop:
     return_depth: int | None = None
 
 
+def same_instruction(a: Uop, b: Uop) -> bool:
+    return (a.op, a.oparg, a.operand0, a.operand1, a.target) == (
+        b.op,
+        b.oparg,
+        b.operand0,
+        b.operand1,
+        b.target,
+    )
+
+
 @dataclass(frozen=True, kw_only=True)
 class CodeIdentity:
     qualname: str

@@ -16,10 +16,10 @@ from ..checking.exits import analyse, preconditions_implied
 from ..checking.explain import witness
 from ..checking.refine import refine
 from ..checking.solver import Reachability
-from ..domain.trace import Unit, Uop
+from ..domain.trace import Unit, Uop, same_instruction
 from ..semantics.execution import describe, execute
 from ..semantics.frame_annotation import annotate_frames
-from .report import print_counterexample, unit_columns, verdict_line
+from .report import print_counterexample, unit_columns, uop_text, verdict_line
 
 ROOT = Path(__file__).resolve().parents[4]
 
@@ -75,17 +75,9 @@ def cmd_show(path: str, seq: int, family: Family) -> int:
             }
         for a in r.input:
             seg = segments.get(a.i, ())
-            right = (
-                ""
-                if not seg
-                else "  ->  " + " + ".join(f"{b.op}({b.oparg}, target={b.target})" for b in seg)
-            )
-            mark = (
-                ""
-                if not seg or (len(seg) == 1 and (a.op, a.oparg) == (seg[0].op, seg[0].oparg))
-                else "  *"
-            )
-            print(f"  {a.i:3d} {a.op}({a.oparg}, target={a.target}){right}{mark}")
+            right = "  ->  " + " + ".join(uop_text(b) for b in seg) if seg else ""
+            unchanged = not seg or (len(seg) == 1 and same_instruction(a, seg[0]))
+            print(f"  {a.i:3d} {uop_text(a)}{right}{'' if unchanged else '  *'}")
         return 0
     print("no record with that seq")
     return 1
