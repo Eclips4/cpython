@@ -113,6 +113,7 @@ Python/record_functions.c.h                         generated
 Python/slots_generated.c                            generated
 Python/stdlib_module_names.h                        generated
 Tools/peg_generator/pegen/grammar_parser.py         generated
+Tools/uop_validator/uopval/semantics/uop_metadata.json generated
 aclocal.m4                                          generated
 configure                                           generated
 *.min.js                                            generated
